@@ -1,6 +1,6 @@
 <?php
     include('config.php');
-    $dados = topplayer($con, $mode, $string, $level_admin);
+    $dados = topplayer($con, $string, $level_admin);
     $i = 0;
 ?>
 

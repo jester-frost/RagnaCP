@@ -1,6 +1,6 @@
 <?php 
     include('config.php');
-    $dados = topzeny($con, $mode, $string, $level_admin);
+    $dados = topzeny($con, $string, $level_admin);
     $i = 0;
 ?>
 <table id="conteudo">
