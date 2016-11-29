@@ -857,7 +857,7 @@ background: #5B9EE7; */
     border-top-left-radius: 5px;
 }
 .tab-item.active {
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #FFB852;
     color: #DE4563;
     opacity: 1;
     margin-bottom: -1px;
