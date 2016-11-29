@@ -65,17 +65,16 @@ get_header();
                             <?php the_content(); ?>
                         <h4> Personagens</h4>
                         <table class="char-reset">
-                        <?php
-                            $char = list_reset_char($con, $_SESSION['usuario']->account_id);
-                            foreach ($char as $c) :
-                        ?>
-                            
                             <tr>
                                 <th>Char</th>
                                 <th>Mapa</th>
                                 <th>Coordenadas</th>
                                 <th> </th>
                             </tr>
+                        <?php
+                            $char = list_reset_char($con, $_SESSION['usuario']->account_id);
+                            foreach ($char as $c) :
+                        ?>
 
                             <?php if (  $c->last_map != 'sec_pri') : ?>
                                <?php $botao = '<a href="?modo=reset&char_id='. $c->char_id .'" class="btn">Resetar </a>'; ?>
