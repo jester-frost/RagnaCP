@@ -25,7 +25,7 @@ if (!empty($account_info)){
 	$add_compra_query = $con->prepare("UPDATE `doacao`SET `estado` = :status WHERE transaction_id = :transaction_id");
 	$add_compra_query->execute($acc);
 
-	$cash_update = $con->prepare("UPDATE `global_reg_value` SET value = value + :Rops WHERE `account_id` = :account_id AND str = '#CASHPOINTS'");
+	$cash_update = $con->prepare("UPDATE `acc_reg_num_db` SET value = value + :Rops WHERE `account_id` = :account_id AND str = '#CASHPOINTS'");
 	$cash_update->execute($update);
 }
 
