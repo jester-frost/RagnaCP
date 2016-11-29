@@ -79,11 +79,11 @@ get_header();
 
                     <?php the_content(); ?>
                         <h4> Personagens</h4>
-                        <ul class="char-reset-aparence">
-                    <?php
-                        $char = listagem_char($con, $_SESSION['usuario']->account_id);    
-                        foreach ($char as $c):
-                    ?>
+                    <ul class="char-reset-aparence">
+                        <?php
+                            $char = listagem_char($con, $_SESSION['usuario']->account_id);    
+                            foreach ($char as $c):
+                        ?>
                             <li>
                                 <div class='reset-char'>
                                     <h4>Aparência de  <strong><?php echo $c->name; ?></strong> </h4>
@@ -139,8 +139,8 @@ get_header();
                                     </div>
                                 </div>
                             </li>
-                        </ul>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
                 <?php else : ?>
 
@@ -159,13 +159,11 @@ get_header();
             <?php endwhile;?>
 
         </div>
-        
     </article>
 
     <aside class="right">
         <?php include( get_template_directory() . '/includes/vote.php' ); ?>
     </aside>
-
 </section>
 
 
