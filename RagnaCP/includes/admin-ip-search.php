@@ -12,6 +12,7 @@
     
  ?>
 <form action="" method="post" name="proc-ip" class="generic-form proc-ip">
+    <input type="hidden" name="aba" value="3">
     <label>
         <span class="label-content">IP</span>
         <input class="ipt" name="last_ip" type="text" value="" placeholder="192.168.1.1" required="required">

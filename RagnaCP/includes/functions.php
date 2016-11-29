@@ -710,35 +710,32 @@
 	function resetar_posicao($con, $char_id){
 
         $valor=array(':char_id'=>$char_id);
-
 		$player_query = $con->prepare("UPDATE `char` SET last_map='prontera', last_x='115', last_y='155'  WHERE char_id=:char_id");
 	
 		$player_query->execute($valor);
-		$msg = "Posição do char foi resetada !";
+		$msg = "Posição do personagem foi resetada !";
 		return $msg;
 	}
 
 	function resetar_cabelo($con, $char_id){
 
         $valor=array(':char_id'=>$char_id);
-
 		$player_query = $con->prepare("UPDATE `char` SET `hair_color` = '0', `hair` = '0', `clothes_color` = '0' WHERE `char_id`=:char_id");
 	
 		$player_query->execute($valor);
-		$msg = "Aparência do char foi resetada !";
+		$msg = "Aparência do personagem foi resetada !";
 		return $msg;
 	}
 
 	function resetar_equip($con, $char_id){
 
         $valor=array(':char_id'=>$char_id);
-
 		$player_query = $con->prepare("UPDATE `char` SET `weapon` = '0', `shield` = '0', `robe` = '0', `head_top` = '0', `head_mid` = '0', `head_bottom` = '0' WHERE `char_id`=:char_id");
 		$equip_query = $con->prepare("UPDATE `inventory` SET `equip` = '0' WHERE `char_id`=:char_id");
 
 		$player_query->execute($valor);
 		$equip_query->execute($valor);
-		$msg = "Equipamentos do Char foram resetados !";
+		$msg = "Equipamentos do personagem foram removidos !";
 		return $msg;
 	}
 
@@ -747,45 +744,31 @@
 	/*====================================================*/
 	function mudar_senha($con, $userid, $user_pass, $new_pass, $confirm_new_pass ){
 		
-		$dados=array(':userid'=>$userid);
+		$dados = array(':userid'=>$userid);
 
-		$search_player_query = $con->prepare("SELECT * FROM login WHERE userid=:userid");
+		$search_player_query = $con->prepare("SELECT * FROM `login` WHERE userid=:userid");
 		$search_player_query->execute($dados);
-		$usuario=$search_player_query->fetchall(PDO::FETCH_OBJ);
+		$usuario = $search_player_query->fetchAll(PDO::FETCH_OBJ);
 
-		if ($usuario) {
+		if ( $usuario ) {
 
-			foreach ($usuario as $user) {
-				$senha = $user->user_pass;
-			}
+    		$user_pass=str_replace(array($letters), "", $new_pass);
+			$valores=array(':userid'=>$userid, ':new_pass'=>$new_pass);
 
-			if ($senha == $user_pass) {
-
-				if ($new_pass == $confirm_new_pass ) {
-
-		    		$user_pass=str_replace(array($letters), "", $new_pass);
-					$valores=array(':userid'=>$userid, ':new_pass'=>$new_pass);
-
-					$add_player_query = $con->prepare("UPDATE login SET user_pass = :new_pass WHERE userid=:userid");
-				
-					$add_player_query->execute($valores);
-
-					$msg="a senha foi mudada ";
-						
-					unset($_SESSION["usuario"]);
-					session_destroy();
-					wp_redirect( home_url() );
-					
-				}else {
-					$msg = "A senha nova e sua confirmação não são iguais";
-				}
-			}else{
-				$msg="A senha Digitada não é igual à que consta registrada no sistema.";
-			}
-		} else {
-			$msg = "Por algum motivo bizarro ... você não foi encontrado no sistema ... que coisa não ?";
-		}
+			$add_player_query = $con->prepare("UPDATE login SET user_pass = :new_pass WHERE userid=:userid");
 		
+			$add_player_query->execute($valores);
+
+			$msg="a senha foi mudada ";
+			
+			unset($_SESSION["usuario"]);
+			session_destroy();
+			wp_redirect( get_the_permalink() );
+					
+		} else {
+			$msg = "Por algum motivo bizarro, te procurei e não encontrei ...";
+		}
+
 		return $msg;
 	}
 
@@ -985,6 +968,39 @@
 	    $doacoes = $doacao_query->fetchAll(PDO::FETCH_OBJ);
 
 	    return $doacoes;
+	}
+
+	// Lista de personagens para reset de aparencia
+
+	function listagem_char($con, $account_id){
+		$search_character_query = $con->prepare("SELECT * FROM `char` WHERE account_id = ".$account_id."");
+        $search_character_query->execute();
+
+        $char = $search_character_query->fetchAll(PDO::FETCH_OBJ);
+
+		return $char;
+	}
+
+	// Lista de personagens para reset de posicão
+
+	function list_reset_char($con, $account_id){
+		$search_character_query = $con->prepare("SELECT * FROM `char` WHERE account_id = ".$account_id."");
+        $search_character_query->execute();
+
+        $char = $search_character_query->fetchAll(PDO::FETCH_OBJ);
+
+		return $char;
+	}
+
+	// Lista de personagens para transferir dinheiro
+
+	function list_money_char($con, $account_id){
+		$search_character_query = $con->prepare("SELECT * FROM `char` WHERE account_id = ".$account_id."");
+        $search_character_query->execute();
+
+        $char = $search_character_query->fetchAll(PDO::FETCH_OBJ);
+
+		return $char;
 	}
 
 	

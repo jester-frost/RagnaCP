@@ -13,6 +13,7 @@
     
  ?>
 <form action="" method="post" name="proc-acc" class="generic-form  proc-acc">
+    <input type="hidden" name="aba" value="1">
     <label>
         <span class="label-content">ID da Conta</span>
         <input class="ipt ipt-num" name="account_id" type="text" required="required">

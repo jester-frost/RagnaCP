@@ -17,6 +17,7 @@ if ( !class_exists( 'ragna_theme' ) ) :
                 }
             }
             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'scripts_e_estilos' ) );
+            call_user_func( array( __CLASS__, 'myStartSession', ) ) ;
         }
 
         // Menus
@@ -28,6 +29,12 @@ if ( !class_exists( 'ragna_theme' ) ) :
                     'admin' => __( 'Menu admin' )
                 )
             );
+        }
+        
+        function myStartSession() {
+           if(!session_id()) {
+               session_start();
+           }
         }
 
         // Javascripts e CSSs

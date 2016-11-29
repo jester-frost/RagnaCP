@@ -3,24 +3,32 @@
 include_once 'includes/functions.php';
 require "includes/config.php";
 
+    
+if ( $_SESSION['usuario'] ):
 
-    $user = $_SESSION['usuario'];
+    if( !empty($_POST) and isset($_POST["mudar_senha"] ) ) {
 
-    if(!empty($_POST) and (isset($_POST["mudar_senha"]))){
-
-        $userid = str_replace($letters, "", $user->userid);
+        $userid = str_replace($letters, "", $_SESSION['usuario']->userid);
         $user_pass = str_replace($letters, "", $_POST["user_pass"]);
         $new_pass = str_replace($letters, "", $_POST["new_pass"]);
         $confirm_new_pass = str_replace($letters, "", $_POST["confirm_new_pass"]);
-        
-        $dados = mudar_senha($con, $userid, $user_pass, $new_pass,  $confirm_new_pass);
 
-    }else{
-
+        if( $new_pass == $confirm_new_pass ){
+            if($_SESSION['usuario']->user_pass == $user_pass ){
+                $dados = mudar_senha($con, $userid, $user_pass, $new_pass,  $confirm_new_pass);
+            }else{
+                $dados = "A senha Digitada não é igual à que consta registrada no sistema.";
+            }
+        }else{
+            $dados = "A senha nova e sua confirmação não são iguais";
+        }
     }
+
+endif;
 
 $resumo = get_the_excerpt();
 get_header();
+
 ?>
 
 <section class="conteudo limit">

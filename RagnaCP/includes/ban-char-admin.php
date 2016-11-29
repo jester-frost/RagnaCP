@@ -47,13 +47,14 @@
             $results = banirACC($con, $acc_id, $dia, $mes, $ano, $state);
 			
 		}
-			
-		
 
 	endif;
 	
 ?>
 <form action="" method="post" name="proc-ban-acc" class="generic-form proc-ban-acc">
+
+	<input type="hidden" name="aba" value="7">
+
     <label>
         <span class="label-content">ACC ID</span>
         <input class="ipt ipt-num" name="account-ban-id" id="account-ban-id" type="text" placeholder="2000002" required="required">
@@ -69,6 +70,7 @@
 
 <div class="form-ban-char">
 	<form action="" name="ban-account" class="generic-form ban-account" method="post">
+		<input type="hidden" name="aba" value="7">
 		<?php if ($edit): ?>
 			<input name="ban-account_id" type="hidden" id="accid" value="<?php echo $conta['account_id'] ?>" required="required">
 			<label>

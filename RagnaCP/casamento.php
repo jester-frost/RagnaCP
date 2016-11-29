@@ -4,12 +4,9 @@
 
 include_once 'includes/functions.php';
 require "includes/config.php";
-
-    if ( $_SESSION["usuario"] ) :
-
-        $usuario = $_SESSION["usuario"];
-
+    if ( $_SESSION['usuario'] ):
         switch ($_GET['modo']) {
+
             case 'divorcio':
 
                 $char_id = $_GET['char_id'];
@@ -25,19 +22,20 @@ require "includes/config.php";
                     $partner_id = $acc->partner_id;
 
                 }
-                if ($usuario->account_id == $char_account_id){
+
+                if ($_SESSION["usuario"]->account_id == $char_account_id){
                     // Aqui voce chama a funcao divorcia
                     $dados = divorcio($con, $char_id, $partner_id);
                     // redireciona mantendo a URL limpa
                     wp_redirect( get_permalink()); exit;
-                }else {
+                } else {
                     $dados = "Não foi possivel processar a requisição ";
                 }
+
             break;
         }
 
     endif;
-
     $resumo = get_the_excerpt();
 
     get_header();

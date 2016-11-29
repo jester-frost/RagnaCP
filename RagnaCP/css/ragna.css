@@ -837,14 +837,15 @@ background: #5B9EE7; */
 
 .tab-nav {
     margin: 0 0 -1px 0;
-}
-.admin-content .tab-nav {
-    margin: 0 0 -1px 0;
+    border-bottom: 1px solid #D8D8D8;
+    float: left;
+    width: 100%;
 }
 .tab-item {
     border: 1px solid #D8D8D8;
+    border-bottom: none;
     display: inline-block;
-    padding:5px 10px;
+    padding: 5px 10px;
     text-decoration: none;
     color: #4B5C93;
     opacity: 0.5;
@@ -852,15 +853,16 @@ background: #5B9EE7; */
     border-top-left-radius: 5px;
 }
 .tab-item.active {
-    border-bottom: 1px solid #fff;
+    border-bottom: 2px solid #fff;
     color: #DE4563;
     opacity: 1;
+    margin-bottom: -1px;
 }
 .tab-content {
     border: 1px solid #D8D8D8;
-    overflow-y:scroll;
+    border-top: none;
+    overflow-y: scroll;
     max-height: 500px;
-
     width: calc(100% - 20px);
     padding: 5px 10px;
     border-top-right-radius: 8px;

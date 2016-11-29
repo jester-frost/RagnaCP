@@ -9,6 +9,7 @@
     endif;
 ?>
 <form action="" method="post" name="proc-personagem" class="generic-form  proc-personagem">
+    <input type="hidden" name="aba" value="4">
     <label>
         <span class="label-content">Nome do Char</span>
         <input class="ipt" name="char_name" type="text" required="required">

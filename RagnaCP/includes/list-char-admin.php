@@ -12,6 +12,7 @@
     
  ?>
 <form action="" method="post" name="proc-char-acc" class="generic-form proc-char-acc">
+    <input type="hidden" name="aba" value="6">
     <label>
         <span class="label-content">ACC ID</span>
         <input class="ipt" name="account-char" type="text" placeholder="2000002" required="required">

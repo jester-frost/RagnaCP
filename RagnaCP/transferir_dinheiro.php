@@ -5,13 +5,10 @@
 include_once 'includes/functions.php';
 require "includes/config.php";
 
-if ( $_SESSION["usuario"] ) :
+if ( $_SESSION['usuario'] ):
+    if( !empty($_POST) and isset($_POST["transferencia"] ) ){
 
-    $usuario = $_SESSION["usuario"];
-
-    if(!empty($_POST) and (isset($_POST["transferencia"]))){
-
-        $account_id = $usuario->account_id;
+        $account_id = $_SESSION["usuario"]->account_id;
 
         $char_id = str_replace($letters, "", $_POST["char"]);
 
@@ -22,39 +19,29 @@ if ( $_SESSION["usuario"] ) :
 
         $search_character_query = $con->prepare("SELECT * FROM `char` WHERE char_id=$char_id");
         $search_character_query->execute();
-        $char = $search_character_query->fetchAll(PDO::FETCH_OBJ);
-        
-        if ($char) {
-            foreach ($char as $c) {
-                if ($c->account_id == $account_id ) {
+        $char = $search_character_query->fetch(PDO::FETCH_OBJ);
 
-                    if ($char_id != $char_destino ) {
-                         $dados = transferir($con, $char_id, $dinheiro, $char_destino);
-                    }
-                    else{
-                        $dados="O depósito deve ser feito à personagens diferentes.";
-                    }
-                }else{
-                    $dados = automatic_ban($con, $account_id);
+        if ($char) {
+            if ( $char->account_id == $account_id ) {
+
+                if ($char_id != $char_destino ) {
+                    $dados = transferir($con, $char_id, $dinheiro, $char_destino);
                 }
+                else{
+                    $dados="O depósito deve ser feito à personagens diferentes.";
+                }
+            }else{
+                $dados = automatic_ban($con, $account_id);
             }
         }else{
             $dados = "Char não encontrado ... como é possível isso ?";
         }
-
-
-
-        
-        
-
-    }else{
-
     }
-
-
 endif;
+
 $resumo = get_the_excerpt();
 get_header();
+
 ?>
 
 <section class="conteudo limit">
@@ -80,32 +67,34 @@ get_header();
                 <?php if ( $_SESSION["usuario"] ) : ?>
 
                     <?php the_content(); ?>
-                
-                    <?php
+                    <h4> Personagens</h4>
+                    <ul class="char-reset char-zeny-transfer">
 
-                        $user = $_SESSION['usuario'];
-                        $account_id = $user->account_id;
+                    <?php $char = list_money_char($con, $_SESSION['usuario']->account_id); ?>
 
-                        $search_character_query = $con->prepare("SELECT * FROM `char` WHERE account_id=$account_id");
-                        $search_character_query->execute();
+                        <li><div> <h5>Char</h5> <h5>Dinheiro</h5> <h5>Quantia</h5> <h5>Para</h5> </div></li>
 
-                        $char = $search_character_query->fetchAll(PDO::FETCH_OBJ);
-                        $html .= "<h4> Personagens</h4>";
-                        $html .= '<ul class="char-reset char-zeny-transfer">';
-                        $html .= "<li><div> <h5>Char</h5> <h5>Dinheiro</h5> <h5>Quantia</h5> <h5>Para</h5> </div></li>";
-                            
-                        $option = '<option value="">Selecione</option>';
-                        foreach ($char as $opt) {
-                            $option .= '<option value="' . $opt->char_id . '">' . $opt->name . '</option>';
-                        }
+                        <?php $option = '<option value="">Selecione</option>'; ?>
 
-                        foreach ($char as $c) {
-                            $i = $i+1;
-                            $html .= '<li><div><p>'. $c->name . '</p> <p>'. number_format($c->zeny,0,'.','.').' Z</p></div><form name="transferencia" action="" method="post"><input type="hidden" name="char" value="'.$c->char_id.'"> </label><input type="text" class="ipt ipt-num" name="money" required="required"></label><label><select class="ipt" name="personagem">'. $option .'</select></label><input type="submit" name="transferencia" class="btn" value="Depositar"></form>';
-                        }
-                        $html .= '</table>';
-                        echo $html;
-                    ?>
+                        <?php foreach ($char as $opt) :?>
+                            <?php  $option .= '<option value="' . $opt->char_id . '">' . $opt->name . '</option>';?>
+                        <?php endforeach; ?>
+
+                        <?php foreach ($char as $c) :?>
+                        <li>
+                            <div>
+                                <p><?php echo $c->name; ?></p>
+                                <p><?php echo number_format($c->zeny,0,'.','.'); ?> Z</p>
+                            </div>
+                            <form name="transferencia" action="" method="post">
+                                <input type="hidden" name="char" value="<?php echo $c->char_id; ?>"> 
+                                <label><input type="text" class="ipt ipt-num" name="money" required="required"></label>
+                                <label><select class="ipt" name="personagem"><?php echo $option; ?></select></label>
+                                <label><input type="submit" name="transferencia" class="btn" value="Depositar"></label>
+                            </form>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
 
                 <?php else : ?>

@@ -50,6 +50,7 @@
 ?>
 
 <form action="" name="proc-edit-account" method="POST" class="generic-form form-search-acc proc-edit-account">
+	<input type="hidden" name="aba" value="5">
     <label>
         <span class='label-content'>Digite ACC ID :</span>
         <input type="search" class="ipt ipt-num" name="buscamarota" value='' id="buscamarota" required="required" placeholder="Procurar...">
@@ -59,6 +60,7 @@
 <hr>
 <div class="form-editar">
 	<form action='' name='edit-account' class='generic-form edit-char' method='post'>
+		<input type="hidden" name="aba" value="5">
 
 		<?php if ( $edit ): ?>
 			

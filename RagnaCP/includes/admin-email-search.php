@@ -13,6 +13,7 @@
     
  ?>
 <form action="" method="post" name="proc-mail" class="email proc-mail">
+    <input type="hidden" name="aba" value="2">
     <label>
         <span class="label-content">E-mail</span>
         <input class="ipt" name="email" type="text" required="required">

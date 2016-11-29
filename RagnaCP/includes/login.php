@@ -9,8 +9,6 @@
 
 	$dados = login($con, $userid, $user_pass);
 
-	}else{
-
 	}
  ?>
 <?php  if($_SESSION["usuario"]) : ?>

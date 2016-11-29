@@ -9,12 +9,14 @@
  * @since RagnaCP 1.0
  */
 	require "includes/config.php";
-	session_start();
+	
+
 	if ( $_GET['logout'] == 'sim' ) {
 		unset($_SESSION["usuario"]);
 		session_destroy();
 		wp_redirect( home_url() );
 	}
+	
 	
 
 ?><!DOCTYPE html>
