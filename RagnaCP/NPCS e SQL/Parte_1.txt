@@ -22,13 +22,13 @@
 ////								   ////
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
-prontera.gat,147,175,4	script	Arena da Morte	801,{
+prontera.gat,164,177,4	script	Arena da Morte	801,{
  
 
 set @nome$,"[^FF0000Arena da Morte^000000]"; //Nome do npc.
  
 //Arena PvP 
-set $pvp$[0],"cell_game";//Arena 1
+set $pvp$[0],"guild_vs1";//Arena 1
 set $pvpy$[0],"guild_vs3";//Arena 1
 //Arena GvG
 set $gvg$[0],"guild_vs2";// Arena 1
@@ -40,161 +40,66 @@ set $pvpw$[0],"pvp_n_2-5";// 1x1 1
 set $evento$[0],"pvp_y_2-1";// Eventos
 //Arena Baby
 
-        if(BaseLevel < (70)) goto L_nvip;
-        if(BaseLevel > (70)) goto L_Vip;
-L_nvip:
+        if(BaseLevel < (70)) goto N_nlevel;
+        if(BaseLevel > (70)) goto N_level;
+N_nlevel:
 mes "[^FF3355Opes VIP^000000]";
-mes "SEU IDIOTAAAA !!! voce quer morrer é você não é nem level 100 como quer entrar aqui ¬¬ desapareça da minha frente seu verme inutil fraco escórea da humanidade RAPARIGAAA!!!.";
+mes "SEU IDIOTAAAA !!! voce quer morrer é !?? você não tem nivel suficiente nem pra matar um poring !! como quer entrar aqui ¬¬ desapareça da minha frente seu verme inutil fraco escórea da humanidade RAPARIGAAA!!!.";
+next;
+warp prontera,0,0;
 close;
 
-L_vip:
+N_level:
 	mes @nome$;
 	mes "Olá "+strcharinfo(0)+".";
 	mes "Escolha qual destino deseja ir";
 	soundeffect "prepare.wav",1;
 	next;
-	switch(SELECT("- Playes vs Playes [Rank] [^0000FF"+getmapusers($pvp$[$pvp])+"^000000]","- Guild vs Guild [Rank] [^0000FF"+getmapusers($gvg$[$gvg])+"^000000]","- Playes vs Playes [No-Rank] [^0000FF"+getmapusers($pvpn$[$pvpn])+"^000000]","- Guild vs Guild [No-Rank] [^0000FF"+getmapusers($gvgn$[$gvgn])+"^000000]","- Baby vs Baby [No-Rank] [^0000FF"+getmapusers($baby$[$baby])+"^000000]","- Playes 1x1 [No-Rank] [^0000FF"+getmapusers($playe$[$playe])+"^000000]","- Sala de MVPS [^0000FF"+getmapusers($evento$[$evento])+"^000000]","- Sair"))
+	switch(select("- Playes vs Playes [Rank] [^0000FF"+getmapusers($pvp$[$pvp])+"^000000]","- Guild vs Guild [Rank] [^0000FF"+getmapusers($gvg$[$gvg])+"^000000]","- Sala de MVPS [^0000FF"+getmapusers($evento$[$evento])+"^000000]","- Sair"))
 	{
  
 	case 1:
- 
-	if($scg == FALSE){
-	mes .n$;
-	mes "Desculpe ^0000CD"+StrCharInfo(0)+"^000000.";
-	mes "O PvP Rank está Fechado no Momento.";
-	close;
-	}
-		switch(select("- Arena PvP [Rank]","- Sair"))
-		{
- 
-		case 1:
-			percentheal 100,100;
-			warp $pvp$,0,0;	end;
- 
-		case 2:
-			mes @nome$;
-			mes "Volte quando precisar dos meus serviços.";
-			close;
+		switch(select("- Arena PvP [Rank]","- Sair")){
+	 
+			case 1:
+				percentheal 100,100;
+				warp $pvp$,0,0;	end;
+	 
+			case 2:
+				mes @nome$;
+				mes "Volte quando precisar dos meus serviços.";
+				close;
 		}
-		close;
+	close;
+
 	case 2:
- 
-	if($scg == FALSE){
-	mes .n$;
-	mes "Desculpe ^0000CD"+StrCharInfo(0)+"^000000.";
-	mes "O GvG Rank está Fechado no Momento.";
+		switch(select("- Arena GvG [Rank]","- Sair")){
+
+			case 1:
+				percentheal 100,100;
+				if(!getcharid(2)) {mes "Eu não posso ajudá-lo, você não possui  uma Clã."; close;}
+				warp $gvg$,0,0;	end;
+
+			case 2:
+				mes @nome$;
+				mes "Volte sempre que quiser.";
+				close;
+		}
 	close;
-	}
-		switch(select("- Arena GvG [Rank]","- Sair"))
-		{
- 
-		case 1:
-			percentheal 100,100;
-			if(!getcharid(2)) {mes "Eu não posso ajudá-lo, você não possui  uma Clã."; close;}
-			warp $gvg$,0,0;	end;
- 
-		case 2:
-			mes @nome$;
-			mes "Volte sempre que quiser.";
-			close;
-		}
-		close;
- 
-	OnClock0000: callsub OnOpenRoom;
-	OnClock2359: callsub  OnClosRoom;
- 
-	OnOpenRoom:
-			set $scg,1;
-			announce "Sala PvP e GvG Abertas! Seja um dos primeiros do Rank !",bc_yellow;
-			end;
- 
-	OnClosRoom:
-			set $scg,0;
-			announce "Sala PvP e GvG Fechadas!",bc_yellow|bc_all;
-			set $sct, $sct + 1;
-			mapwarp "guild_vs3.gat","prontera.gat",150,150;
-			mapwarp "guild_vs2-1.gat","prontera.gat",150,150;
-			end;
- 
 	case 3:
-		switch(select("- Arena PvP (No-Rank)","- Sair"))
-		{
+		switch(select("- Sala de MVPs","- Sair")){
  
-		case 1:
-			percentheal 100,100;
-			warp $pvpn$,0,0;	end;
- 
-		case 2:
-			mes @nome$;
-			mes "Volte quando precisar dos meus serviços.";
-			close;
+			case 1:
+				percentheal 100,100;
+				warp $evento$,155,191;	end;
+	 
+			case 2:
+				mes @nome$;
+				mes "Volte quando precisar dos meus serviços.";
+				close;
 		}
-		close;
+	close;
 	case 4:
-		switch(select("- Arena GvG (No-Rank)","- Sair"))
-		{
- 
-		case 1:
-			percentheal 100,100;
-			if(!getcharid(2)) {mes "Você precisa estar em uma guild para poder entrar"; close;}
-			warp $gvgn$,0,0;	end;
- 
-		case 2:
-			mes @nome$;
-			mes "Volte quando precisar dos meus serviços.";
-			close;
-		}
-		close;
- 
-   	 case 5:
-        	switch(select("- PvP Baby","- Sair"))
-		{
- 
-		case 1:
-			mes @nome$;
-			percentheal 100,100;
-			if (Class > 4001 && Class < 4022){ mes @npc$; mes "PvP apenas para Baby, você não é baby!"; close; }
-			warp $baby$,0,0;	end;
- 
-		case 2:
-			mes @nome$;
-			mes "Volte quando precisar dos meus serviços.";
-			close;
-		}
-		close;
-	case 6:
-		switch(select("- Playes 1x1 (No-Rank)","- Sair"))
-		{
- 
-		case 1:
-			percentheal 100,100;
-            if (getmapusers("guild_vs1-4") > 1) {
-            	mes "Limite de 2 pessoas atingidos.";
-            	close;
-            }
-			warp $playe$,0,0;	end;
- 
-		case 2:
-			mes @nome$;
-			mes "Volte quando precisar dos meus serviços.";
-			close;
-	}
-                                    close;
-                   case 7:
-		switch(select("- Sala de MVPs","- Sair"))
-		{
- 
-		case 1:
-			percentheal 100,100;
-			warp $evento$,155,191;	end;
- 
-		case 2:
-			mes @nome$;
-			mes "Volte quando precisar dos meus serviços.";
-			close;
-		}
-		close;
-	case 8:
 		mes @nome$;
 		mes "Volte quando precisar dos meus serviços.";
 		close;
@@ -228,7 +133,7 @@ PvP:
 		query_sql "INSERT INTO `pvp` (`char_id`,`name`,`kills`) VALUES ("+@CID+",'"+strcharinfo(0)+"',1)",@esc$; dispbottom "Você Matou seu primeiro jogador";
 		end;
 	}
-	query_sql "UPDATE `pvp` SET `kills` = `kills` +1 WHERE `char_id`="+@CID+"",@esc$;
+	query_sql "UPDATE `pvp` set `kills` = `kills` +1 WHERE `char_id`="+@CID+"",@esc$;
 	set @points,@points+1;
 	mapannounce	@map$,"["+strcharinfo(0)+"] Você matou [ "+rid2name(killedrid)+" ] e chegou a "+@points+" jogadores mortos.",bc_self,0x90FFFF;
 	end;
@@ -242,7 +147,7 @@ GvG:
 		query_sql "INSERT INTO `gvg` (`guild_id`,`name`,`kills`) VALUES ("+@GID+",'"+strcharinfo(2)+"',1)",@esc$; dispbottom "Primeiro Frag da Guild";
 		end;
 	}
-	query_sql "UPDATE `gvg` SET `kills` = `kills` + 1 WHERE `guild_id`="+@GID+"",@esc$;
+	query_sql "UPDATE `gvg` set `kills` = `kills` + 1 WHERE `guild_id`="+@GID+"",@esc$;
 	set @gpoints,@gpoints+1;
 	mapannounce	@map$,"A Guild [ "+@name$+" ] empilhou "+@gpoints+" caveiras.",bc_self,0x90FFFF;
 	end;
@@ -271,7 +176,7 @@ PvP:
 		query_sql "INSERT INTO `pvp` (`char_id`,`name`,`deaths`) VALUES ("+@CID+",'"+strcharinfo(0)+"',1)",@esc$;
 		end;
 	}
-		query_sql "UPDATE `pvp` SET `deaths` = `deaths` + 1 WHERE `char_id`="+@CID+"",@esc$;
+		query_sql "UPDATE `pvp` set `deaths` = `deaths` + 1 WHERE `char_id`="+@CID+"",@esc$;
 	end;
  
 //Arenas GvG
@@ -281,7 +186,7 @@ GvG:
 	query_sql "SELECT `deaths` FROM `gvg` WHERE `guild_id`="+@GID+"",@gpoints;
 	query_sql "SELECT `name` FROM `gvg` WHERE `guild_id`="+@GID+"",@name$;
 		if ( @name$ == "" ) { query_sql "INSERT INTO`gvg` (`guild_id`,`name`,`deaths`) VALUES ("+@GID+",'"+strcharinfo(2)+"',1)",@esc$; end; }
-		query_sql "UPDATE `gvg` SET `deaths` = `deaths` + 1 WHERE `guild_id`="+@GID+"",@esc$;
+		query_sql "UPDATE `gvg` set `deaths` = `deaths` + 1 WHERE `guild_id`="+@GID+"",@esc$;
 		end;
 	}
 prontera.gat,0,0,5	script	OnPCDieEvent	-1,{
@@ -410,7 +315,7 @@ if(@matou==1) mapannounce @map$,""+strcharinfo(0)+"  matou  "+rid2name(killedrid
 
 } 
 //Saída
-cell_game,170,169,4	script	Juiz#PvP1::Juiz#PvP	899,{
+cellpvp,170,169,4	script	Juiz#PvP1::Juiz#PvP	899,{
 dispbottom "Você sairá em 10 segundos.";
 addtimer 10000,"Juiz#PvP::OnSairpvp";
 end;
@@ -477,7 +382,9 @@ guild_vs3	mapflag	nobranch
 guild_vs3	mapflag	noloot
 guild_vs3	mapflag	noexp
 guild_vs3	mapflag	novending
- 
+guild_vs3	mapflag	gvg	off
+guild_vs3	mapflag	pvp	on
+
 // Baby
 guild_vs2	mapflag	nosave
 guild_vs2	mapflag	noteleport
@@ -493,16 +400,19 @@ guild_vs2	mapflag	noexp
 guild_vs2	mapflag	novending
  
 // Playes 1x1
-cell_game	mapflag	nosave
-cell_game	mapflag	noteleport
-cell_game	mapflag	nowarpto
-cell_game	mapflag	nowarp
-cell_game	mapflag	nomemo
-cell_game	mapflag	gvg	off
-cell_game	mapflag	pvp	on
-cell_game	mapflag	nopenalty
-cell_game	mapflag	nobranch
-cell_game	mapflag	pvp_noguild
-cell_game	mapflag	noloot
-cell_game	mapflag	noexp
-cell_game	mapflag	novending
+pvp_n_5-5	mapflag	pvp	off
+pvp_n_5-5	mapflag	gvg	off
+pvp_n_5-5	mapflag	gvg	on
+cellpvp	mapflag	nosave
+cellpvp	mapflag	noteleport
+cellpvp	mapflag	nowarpto
+cellpvp	mapflag	nowarp
+cellpvp	mapflag	nomemo
+cellpvp	mapflag	gvg	off
+cellpvp	mapflag	pvp	on
+cellpvp	mapflag	nopenalty
+cellpvp	mapflag	nobranch
+cellpvp	mapflag	pvp_noguild
+cellpvp	mapflag	noloot
+cellpvp	mapflag	noexp
+cellpvp	mapflag	novending
