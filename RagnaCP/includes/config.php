@@ -86,12 +86,14 @@
             PRIMARY KEY (`account_id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
             */
-            $link_array = serialize( array(
+
+            $link_array = array(
                 1 => $link1,
                 2 => $link2,
                 3 => $link3,
-            ));
-            $links = unserialize($link_array);
+            );
+
+            $links = $link_array;
         }
     //
     //
