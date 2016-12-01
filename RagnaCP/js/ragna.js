@@ -1,5 +1,4 @@
 jQuery(function(){
-
     $(' .tab-item ').click(function(){
         var link = $(this).attr('href');
         $(' .tab-nav .tab-item ').removeClass(' active ');
@@ -239,8 +238,7 @@ jQuery(function(){
         
     });
 
-    // Funções de administração
-    
+
     $(document).delegate(".ip-to-search","click",function(e){
         var link = $(this).attr('href');
             $('.proc-ip .ipt').val(link);

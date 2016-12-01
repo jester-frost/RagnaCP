@@ -231,8 +231,7 @@ form {
     background: url(images/bg-2.jpg) center top no-repeat;
     margin: 0 auto;
     margin-top: 0;
-    height: auto;
-    padding-bottom: 30px;
+    height: 100%;
 }
 .server-status {
     height: 143px;
@@ -1240,4 +1239,9 @@ th {
 }
 img.guild-emblem{
     display: none;
+}
+/* CHAR MAKER */
+
+.char_make {
+    background: url('./images/win_make.png') no-repeat top left;
 }
