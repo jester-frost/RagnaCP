@@ -231,7 +231,8 @@ form {
     background: url(images/bg-2.jpg) center top no-repeat;
     margin: 0 auto;
     margin-top: 0;
-    height: 100%;
+    height: auto;
+    padding-bottom: 30px;
 }
 .server-status {
     height: 143px;
