@@ -1254,7 +1254,9 @@ th {
 .box-footer {
     background: #FF902C;
 }
-
+.box-footer p {
+    color: #d4c6cd;
+}
 .box {
     background-color: #FFB852;
 }
