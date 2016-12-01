@@ -84,6 +84,13 @@
     display: block;
     text-align: center;
 }
+.char-appearance .cabelos ul > li.active ul > li.current img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 23px;
+}
 /* Char corpo*/
 .char-appearance .obj-char {
     position: absolute;
