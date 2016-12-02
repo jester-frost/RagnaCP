@@ -376,7 +376,7 @@ background: #5B9EE7; */
 .carousel-inner ul li {
     width: 180px;
     height: 200px;
-    border: 5px solid transparent;
+    border: 5px solid #9cadde;
     margin: 0;
     list-style: none;
     float: left;
@@ -390,9 +390,11 @@ background: #5B9EE7; */
     border-top-left-radius: 0;
 }
 .carousel-inner ul li .char-name{
-    display: none;
-    width: auto;
     margin:0;
+    margin-top:-1px;
+    display: block;
+    float: left;
+    width: auto;
     margin-left: -1px;
     -webkit-border-bottom-right-radius: 8px;
     -moz-border-radius-bottomright: 8px;
@@ -414,25 +416,18 @@ background: #5B9EE7; */
     font-size: 13px;
     padding: 0px 10px 5px;
 }
-.carousel-inner ul li:hover {
-    border-color: #9cadde;
-}
+
 .carousel-inner ul li > div{
     width: 100%;
     height: 100%;
-    background-color: #fff;
-    border: 1px solid #828282!important;
-    margin:-1px 0 0 0;
-}
-
-.carousel-inner ul li:hover > div{
-    background-color: #fff;
+    border: 1px solid #D8D8D8!important;
     border-left: 1px solid #565656!important;
     border-top: 1px solid #565656!important;
+    margin:-1px 0 0 0;
 }
 .posicao {
     display: block!important;
-    margin: 26px auto 5px;
+    margin:5px auto 3px;
     width:150px!important;
     height: 30px;
     float: left;
@@ -440,12 +435,9 @@ background: #5B9EE7; */
 .posicao span {
     display: block!important;
     font-size: 12px;
-    color:#484848;
+    color:#6F6F6F;
 }
-.carousel-inner ul li:hover .posicao {
-    margin:5px auto 3px;
-}
-.carousel-inner ul li:hover .char {
+.carousel-inner ul li .char {
     margin:61px auto 0;
 }
 .carousel-inner ul li .char small {
@@ -463,11 +455,6 @@ background: #5B9EE7; */
 }
 #conteudo .info {
     float: none;
-}
-.carousel-inner ul li:hover .char-name{
-    margin-top:-1px;
-    display: block;
-    float: left;
 }
 .carousel-navigation {
     position: absolute;
