@@ -826,19 +826,32 @@
 
 	function char_info($con, $char_id){
 		include("jobs.php");
-		$char_query = $con->prepare("SELECT char_id, account_id, name, class, base_level, job_level FROM `char` WHERE char_id = $char_id");
+		$char_query = $con->prepare("SELECT char_id, hair, account_id, name, class, base_level, job_level FROM `char` WHERE char_id = $char_id");
 		$char_query->execute();
 		$chars = $char_query->fetchAll(PDO::FETCH_OBJ);
 
 		foreach ($chars as $c) {
 			$account_id =  $c->account_id;
 			$sex = account_gender($con, $account_id);
-			echo "<div class='info'><img src='". get_bloginfo(template_url)  ."/images/". ($c->class) ."_". $sex .".jpg '/> ";
+
+			if ( ($c->sex == "F") && ( $c->hair == 36 ) ):
+                $fix = "fix-f-36";
+            else:
+            	$fix = "";
+            endif;
+
+			echo "<div class='info'>
+				<div class='pvp-char'>
+					<div class='head'>
+						<img src='". get_bloginfo(template_url)  ."/images/cabelos/". $sex ."/cabelo-". ($c->hair+1) .".gif ' class='". $fix ."'/>
+					</div>
+					<img src='". get_bloginfo(template_url)  ."/images/classes/". $sex ."/". ($c->class) .".png '/> 
+				</div>";
 			echo "<p>" . ($job[$c->class]) . "</p>";
 			echo "<p>Level: <small>" . ($c->base_level) . "</small></p></div>";
 		}
 	}
-
+                                            
 	function carrega_rankPVP($con){
 		/* Preparando array que evita SQL injection */
 		$pvp_query = $con->prepare("SELECT char_id, name, kills, deaths FROM pvp ORDER BY kills DESC LIMIT 10");

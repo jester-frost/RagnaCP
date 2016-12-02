@@ -8,12 +8,12 @@ get_header();
 
 <section class="conteudo limit">
     <aside class="left">
-    	<?php include( get_template_directory() . '/includes/menu-left.php' ); ?>
+        <?php include( get_template_directory() . '/includes/menu-left.php' ); ?>
     </aside>
 
     <article>
 
-		<div class="box">
+        <div class="box">
             <?php while ( have_posts() ) : the_post();?>
                 <h3 class="box-title"><?php the_title(); ?></h3>
                 
@@ -29,8 +29,8 @@ get_header();
 
                         <?php the_content(); ?>
 
-                    <div class="char_make">
-                        <form action="" name="create-char" method="POST">
+                        <div class="char_make">
+                            <form action="" name="create-char" method="POST">
                                 <fieldset class="char-appearance">
 
                                     <div class="cabelos">
@@ -46,10 +46,15 @@ get_header();
                                                 <?php $active = "active"; ?>
                                                 <li class="cor-<?php echo $i;?> <?php if($i == 1 ){echo $active;}; ?>">
                                                     <ul class="estilo">
-                                                        <?php for ($j = 1; $j <= 27; $j++ ) :?>
+                                                        <?php for ($j = 1; $j <= $qtd_cabelos; $j++ ) :?>
                                                             <?php $current = "current"; ?>
+                                                            <?php if ( ($_SESSION["usuario"]->sex == "F") && ( $j ==36 ) ): ?>
+                                                                <?php $fix = "fix-f-36" ?>
+                                                            <?php else: ?>
+                                                                <?php $fix = "" ?>
+                                                            <?php endif; ?>
                                                             <li class="<?php if($j == 1 ){echo $current;}; ?>">
-                                                                <img src="<?php bloginfo(template_url) ?>/images/cabelos/<?php echo $_SESSION["usuario"]->sex; ?>/cabelo-<?php echo $j;?>.gif" alt=""/>
+                                                                <img src="<?php bloginfo(template_url) ?>/images/cabelos/<?php echo $_SESSION["usuario"]->sex; ?>/cabelo-<?php echo $j;?>.gif" class="<?php echo $fix; ?>" alt=""/>
                                                             </li>
                                                         <?php endfor; ?>
                                                     </ul>
@@ -89,12 +94,12 @@ get_header();
                                 </fieldset>
 
                                 <fieldset class="stats-make">
-                                    <label id="stat_str"><input type="number" value="5"></label>
-                                    <label id="stat_agi"><input type="number" value="5"></label>
-                                    <label id="stat_vit"><input type="number" value="5"></label>
-                                    <label id="stat_inte"><input type="number" value="5"></label>
-                                    <label id="stat_dex"><input type="number" value="5"></label>
-                                    <label id="stat_luk"><input type="number" value="5"></label>
+                                    <label id="stat_str"><input type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_agi"><input type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_vit"><input type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_inte"><input type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_dex"><input type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_luk"><input type="number" disabled="disabled" value="5"></label>
                                 </fieldset>
 
                                 <fieldset class="btns clearfix">
@@ -115,11 +120,11 @@ get_header();
                     
                 </div>
             <?php endwhile;?>
-		</div>
+        </div>
     </article>
 
     <aside class="right">
-    	<?php include( get_template_directory() . '/includes/vote.php' ); ?>
+        <?php include( get_template_directory() . '/includes/vote.php' ); ?>
     </aside>
 </section>
 

@@ -88,6 +88,10 @@ get_header();
                                 <div class='reset-char'>
                                     <h4>Aparência de  <strong><?php echo $c->name; ?></strong> </h4>
                                     <div>
+                                        <section class="my-char">
+                                            <img src="<?php bloginfo(template_url) ?>/images/cabelos/<?php echo $_SESSION["usuario"]->sex; ?>/cabelo-<?php echo ($c->hair+1); ?>.gif" alt=""/>
+                                            <img src="<?php bloginfo(template_url) ?>/images/classes/<?php echo $_SESSION["usuario"]->sex; ?>/<?php echo $c->class; ?>.png" alt=""/>
+                                        </section>
                                         <table>
                                             <thead>
                                                 <tr>

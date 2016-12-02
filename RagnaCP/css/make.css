@@ -89,7 +89,10 @@
     left: 0;
     right: 0;
     margin: auto;
-    bottom: 23px;
+    top:0;
+}
+.char-appearance .cabelos ul > li.active ul > li.current img.fix-f-36 {
+    top: -20px;
 }
 /* Char corpo*/
 .char-appearance .obj-char {

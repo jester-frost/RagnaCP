@@ -1355,3 +1355,23 @@ th {
 img.guild-emblem{
     display: none;
 }
+/* My Char*/
+
+.my-char,
+.pvp-char {
+    text-align: center;
+    width:65px;
+    margin-top: 20px;
+}
+.pvp-char {
+    margin: 0 auto;
+}
+.my-char img:first-child,
+.pvp-char img:first-child {
+    margin: 0 0 -11px 0;
+    position: relative;
+}
+.my-char img,
+.pvp-char img,{
+    display: inline-block;
+}
