@@ -1019,7 +1019,7 @@
 
 	// Make Char
 
-	function make_char($con, $char_id, $acc_id, $char_slot, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $mapa, $mapa_x, $mapa_y) {
+	function make_char($con, $char_id, $acc_id, $char_slot, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $mapa, $mapa_x, $mapa_y){
 
 		$blevel = 1;
 		$jlevel = 0;
@@ -1045,7 +1045,15 @@
         		// ultimo char cadastrado
         		$char_id = ( $con->LastInsertId(`char`) + 1 );
         		// slot de teste
-        		$slot = 9;
+        		$slot = 0;
+
+        		if($personagens):
+	        		foreach ($personagens as $char):
+	        			if ($char['char_slot'] == $slot ) :
+        					$slot++;
+	        			endif;
+	        		endforeach;
+        		endif;
 
 				$cadastrar=array(':char_id'=>$char_id, ':account_id'=>$acc_id, ':char_num'=>$slot, ':name'=>$name , ':base_level'=>$blevel, ':job_level'=>$jlevel, ':str'=>$str, ':agi'=>$agi, ':vit'=>$vit, ':inte'=>$int, ':dex'=>$dex, ':luk'=>$luk, ':max_hp'=>$max_hp, ':hp'=>$max_hp, ':max_sp'=>$max_hp, ':sp'=>$max_sp, ':status_point'=>$stats_point, ':last_map'=>$mapa, ':last_x'=>$mapa_x, ':last_y'=>$mapa_y, ':save_map'=>$mapa, ':save_x'=>$mapa_x, ':save_y'=>$mapa_y);
 

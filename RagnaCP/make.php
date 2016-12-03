@@ -7,7 +7,7 @@ include_once 'includes/functions.php';
 
     $dados = "";
 
-    if(!empty($_POST) and (isset($_POST["create-char"]))) {
+    if(!empty($_POST) and (isset($_POST["make-char"]))) {
 
         $char_id = ""; 
         $acc_id = $_SESSION["usuario"]->account_id;
@@ -114,7 +114,7 @@ get_header();
                         <?php the_content(); ?>
 
                         <div class="char_make">
-                            <form action="" name="create-char"  method="post">
+                            <form action="" name="make-char"  method="post">
                                 <input type="hidden" name="hair" value="1" class="hair">
                                 <input type="hidden" name="hair_color" value="1" class="hair_color">
                                 <fieldset class="char-appearance">
@@ -190,7 +190,7 @@ get_header();
 
                                 <fieldset class="btns clearfix">
                                 
-                                   <input type="submit" name="create-char" class="btn" value="Criar">
+                                   <input type="submit" name="make-char" class="btn" value="Criar">
                                 </fieldset>
                             </form>
                         </div>
