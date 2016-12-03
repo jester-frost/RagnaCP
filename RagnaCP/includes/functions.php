@@ -1019,7 +1019,7 @@
 
 	// Make Char
 
-	function make_char($con, $char_id, $acc_id, $char_slot, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $mapa, $mapa_x, $mapa_y){
+	function make_char($con, $acc_id, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $stats_final, $last_map, $mapa_x, $mapa_y){
 
 		$blevel = 1;
 		$jlevel = 0;
@@ -1041,9 +1041,6 @@
         $contagem = count($personagens);
 
         if ($contagem < 11 ) :
-
-        		// ultimo char cadastrado
-        		$char_id = ( $con->LastInsertId(`char`) + 1 );
         		// slot de teste
         		$slot = 0;
 
@@ -1055,9 +1052,78 @@
 	        		endforeach;
         		endif;
 
-				$cadastrar=array(':char_id'=>$char_id, ':account_id'=>$acc_id, ':char_num'=>$slot, ':name'=>$name , ':base_level'=>$blevel, ':job_level'=>$jlevel, ':str'=>$str, ':agi'=>$agi, ':vit'=>$vit, ':inte'=>$int, ':dex'=>$dex, ':luk'=>$luk, ':max_hp'=>$max_hp, ':hp'=>$max_hp, ':max_sp'=>$max_hp, ':sp'=>$max_sp, ':status_point'=>$stats_point, ':last_map'=>$mapa, ':last_x'=>$mapa_x, ':last_y'=>$mapa_y, ':save_map'=>$mapa, ':save_x'=>$mapa_x, ':save_y'=>$mapa_y);
-
-				$add_char_query = $con->prepare("INSERT INTO `char`(`char_id`, `account_id`, `char_num`, `name`, `base_level`, `job_level`,`str`, `agi`, `vit`, `int`, `dex`, `luk`, `max_hp`, `hp`, `max_sp`, `sp`, `status_point`, `last_map`, `last_x`, `last_y`, `save_map`, `save_x`, `save_y`) VALUES(:char_id, :account_id, :char_num, :name, :base_level, :job_level,:str, :agi, :vit, :inte, :dex, :luk, :max_hp, :hp, :max_sp, :sp, :status_point, :last_map, :last_x, :last_y, :save_map, :save_x, :save_y) ");
+				$cadastrar=array(
+					':account_id'	=>$acc_id, 
+					':char_num'		=>$slot, 
+					':name'			=>$name, 
+					':base_level'	=>$blevel, 
+					':job_level'	=>$jlevel, 
+					':str'			=>$str, 
+					':agi'			=>$agi, 
+					':vit'			=>$vit, 
+					':inte'			=>$int, 
+					':dex'			=>$dex, 
+					':luk'			=>$luk, 
+					':max_hp'		=>$max_hp, 
+					':hp'			=>$max_hp, 
+					':max_sp'		=>$max_sp, 
+					':sp'			=>$max_sp, 
+					':status_point'	=>$stats_final, 
+					':last_map'		=>$last_map, 
+					':last_x'		=>$mapa_x, 
+					':last_y'		=>$mapa_y, 
+					':save_map'		=>$last_map, 
+					':save_x'		=>$mapa_x, 
+					':save_y'		=>$mapa_y
+				);
+				$add_char_query = $con->prepare("INSERT INTO `char`(
+						`account_id`, 
+						`char_num`, 
+						`name`, 
+						`base_level`, 
+						`job_level`, 
+						`str`, 
+						`agi`, 
+						`vit`, 
+						`int`, 
+						`dex`, 
+						`luk`, 
+						`max_hp`, 
+						`hp`, 
+						`max_sp`, 
+						`sp`, 
+						`status_point`, 
+						`last_map`, 
+						`last_x`, 
+						`last_y`, 
+						`save_map`, 
+						`save_x`, 
+						`save_y`
+					) VALUES(
+					:account_id, 
+					:char_num, 
+					:name, 
+					:base_level, 
+					:job_level, 
+					:str, 
+					:agi, 
+					:vit, 
+					:inte, 
+					:dex, 
+					:luk, 
+					:max_hp, 
+					:hp, 
+					:max_sp, 
+					:sp, 
+					:status_point, 
+					:last_map, 
+					:last_x, 
+					:last_y, 
+					:save_map, 
+					:save_x, 
+					:save_y
+					) 
+				");
 
 				$add_char_query->execute($cadastrar);
 
@@ -1070,6 +1136,22 @@
 		return $dados;
 	}
 
+	function MakesearchChar($con, $char_name){
+
+		$acc=array(':name'=>$char_name);
+
+		$account_query = $con->prepare("SELECT `name` FROM `char` WHERE `name` = :name ORDER BY `account_id`");
+		$account_query->execute($acc);
+		$account_info = $account_query->fetchAll(PDO::FETCH_OBJ);
+
+		if($account_info):
+			$dados = $account_info->name;
+		else:
+			$dados = "";
+		endif;
+
+		return $dados;
+	}
 	
 
  ?>

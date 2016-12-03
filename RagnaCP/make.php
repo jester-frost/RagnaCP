@@ -9,80 +9,93 @@ include_once 'includes/functions.php';
 
     if(!empty($_POST) and (isset($_POST["make-char"]))) {
 
-        $char_id = ""; 
         $acc_id = $_SESSION["usuario"]->account_id;
-        $char_slot = "";
 
-        $string = str_replace($letters, "", $_POST["name"]);
+        $string = str_replace($letters, "", $_POST["char_name"]);
 
         if ( ( strlen( round( $string ) ) >= 6 ) || ( strlen( round( $string ) ) <= 20  ) ):
+
             $name = $string;
+
+            $flag = MakesearchChar($con, $name);
+
+            if (!$flag ):
+                // Estilo de cabelo
+                if( ( round( $_POST["hair"] ) >= 0 ) || ( round( $_POST["hair"] ) <= 11 ) ) :
+                    $hair = $_POST["hair"];
+                else: 
+                    $msg .= "Estilo de cabelo incorreto ;";
+                endif;
+
+                // Cor de cabelo
+                if( ( round( $_POST["hair_color"] ) >= 0 ) || ( round( $_POST["hair_color"] ) <= 11 ) ) :
+                    $hair = $_POST["hair_color"];
+                else: 
+                    $msg .= "Estilo de cabelo incorreto ;";
+                endif;
+
+                if( ( round( $_POST["char_str"] ) <= 9 ) || ( round( $_POST["char_str"] ) >= 1 ) ) :
+                    $str = $_POST["char_str"];
+                else: 
+                    $msg .= "Status Força deve ser Maior que 0 e menor que 10 ;";
+                endif;
+
+                if( ( round( $_POST["char_agi"] ) <= 9 ) || ( round( $_POST["char_agi"] ) >= 1 ) ) :
+                    $agi = $_POST["char_agi"];
+                else: 
+                    $msg .= "Status Agilidade deve ser Maior que 0 e menor que 10 ;";
+                endif;
+
+                if( ( round( $_POST["char_vit"] ) <= 9 ) || ( round( $_POST["char_vit"] ) >= 1 ) ) :
+                    $vit = $_POST["char_vit"];
+                    $max_hp = (40 * (100 + $vit)/100);
+                else: 
+                    $msg .= "Status Vitalidade deve ser Maior que 0 e menor que 10 ;";
+                endif;
+
+                if( ( round( $_POST["char_inte"] ) <= 9 ) || ( round( $_POST["char_inte"] ) >= 1 ) ) :
+                    $int = $_POST["char_inte"];
+                    $max_sp = (11 * (100 + $int)/100);
+                else: 
+                    $msg .= "Status Inteligência deve ser Maior que 0 e menor que 10 ;";
+                endif;
+
+                if( ( round( $_POST["char_dex"] ) <= 9 ) || ( round( $_POST["char_dex"] ) >= 1 ) ) :
+                    $dex = $_POST["char_dex"];
+                else: 
+                    $msg .= "Status Destreza deve ser Maior que 0 e menor que 10 ;";
+                endif;
+
+                if( ( round( $_POST["char_luk"] ) <= 9 ) || ( round( $_POST["char_luk"] ) >= 1 ) ) :
+                    $luk = $_POST["char_luk"];
+                else: 
+                    $msg .= "Status Sorte deve ser Maior que 0 e menor que 10 ;";
+                endif;
+
+                if(!$msg):
+
+                    $last_map = "new_1-1";
+                    $mapa_x = 53;
+                    $mapa_y = 111;
+                    // calculando o que sobra de pontos de status
+                    $stats_final = ( $stats_points - ( $str + $agi + $vit + $int + $dex + $luk ) );
+                    $dados = make_char($con, $acc_id, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $stats_final, $last_map, $mapa_x, $mapa_y);
+                else:
+                    $dados = implode(';',$msg);
+                endif;
+
+            else:
+
+                $dados = "O nome ja está sendo usado por outro personagem, por favor escolha um nome diferente.";
+            
+            endif;
+
         else:
+
             $msg .= "O nome do Personagem deve conter entre 6 e 20 Caractéres ;";
+
         endif;
 
-        // Estilo de cabelo
-        if( ( round( $_POST["hair"] ) >= 0 ) || ( round( $_POST["hair"] ) <= 11 ) ) :
-            $hair = $_POST["hair"];
-        else: 
-            $msg .= "Estilo de cabelo incorreto ;";
-        endif;
-
-        // Cor de cabelo
-        if( ( round( $_POST["hair_color"] ) >= 0 ) || ( round( $_POST["hair_color"] ) <= 11 ) ) :
-            $hair = $_POST["hair_color"];
-        else: 
-            $msg .= "Estilo de cabelo incorreto ;";
-        endif;
-
-        if( ( round( $_POST["str"] ) <= 9 ) || ( round( $_POST["str"] ) >= 1 ) ) :
-            $str = $_POST["str"];
-        else: 
-            $msg .= "Status Força deve ser Maior que 0 e menor que 10 ;";
-        endif;
-
-        if( ( round( $_POST["agi"] ) <= 9 ) || ( round( $_POST["agi"] ) >= 1 ) ) :
-            $agi = $_POST["agi"];
-        else: 
-            $msg .= "Status Agilidade deve ser Maior que 0 e menor que 10 ;";
-        endif;
-
-        if( ( round( $_POST["vit"] ) <= 9 ) || ( round( $_POST["vit"] ) >= 1 ) ) :
-            $vit = $_POST["vit"];
-            $max_sp = (40 * (100 + $vit)/100);
-        else: 
-            $msg .= "Status Vitalidade deve ser Maior que 0 e menor que 10 ;";
-        endif;
-
-        if( ( round( $_POST["inte"] ) <= 9 ) || ( round( $_POST["inte"] ) >= 1 ) ) :
-            $int = $_POST["inte"];
-            $max_sp = (11 * (100 + $int)/100);
-        else: 
-            $msg .= "Status Inteligência deve ser Maior que 0 e menor que 10 ;";
-        endif;
-
-        if( ( round( $_POST["dex"] ) <= 9 ) || ( round( $_POST["dex"] ) >= 1 ) ) :
-            $dex = $_POST["dex"];
-        else: 
-            $msg .= "Status Destreza deve ser Maior que 0 e menor que 10 ;";
-        endif;
-
-        if( ( round( $_POST["luk"] ) <= 9 ) || ( round( $_POST["luk"] ) >= 1 ) ) :
-            $luk = $_POST["luk"];
-        else: 
-            $msg .= "Status Sorte deve ser Maior que 0 e menor que 10 ;";
-        endif;
-
-        if(!$msg):
-            // calculando o que sobra de pontos de status
-            $stats_points = ( $stats_points - ( $str + $agi + $vit + $int + $dex + $luk ) );
-            $dados = make_char($con, $char_id, $acc_id, $char_slot, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_hp, $stats_points, $mapa, $mapa_x, $mapa_y);
-        else:
-            $dados = implode(';',$msg);
-        endif;
-
-    }else{
-        $dados = "Preencha corretamente os campos necessários para cadastrarmos seu personagem.";
     }
 
 
@@ -102,6 +115,7 @@ get_header();
                 <h3 class="box-title"><?php the_title(); ?></h3>
                 
                 <div class="spacer">
+                
 
                     <?php if($resumo){ ?>
 
@@ -151,8 +165,8 @@ get_header();
 
                                     <div class="obj-char">
                                         <img src="<?php bloginfo(template_url) ?>/images/novice/charsim_<?php echo $_SESSION["usuario"]->sex; ?>.png" border="0" title="char thumbnail">
-                                        <label for="">
-                                            <input type="text" name="name" minlength="6" maxlength="20" required="required" class="char-name">
+                                        <label>
+                                            <input type="text" name="char_name" minlength="6" maxlength="20" required="required" class="char-name"  value="">
                                         </label>
                                     </div>
 
@@ -180,12 +194,24 @@ get_header();
                                 </fieldset>
 
                                 <fieldset class="stats-make">
-                                    <label id="stat_str"><input name ="str" type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_agi"><input name ="agi" type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_vit"><input name ="vit" type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_inte"><input name ="inte" type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_dex"><input name ="dex" type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_luk"><input name ="luk" type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_str">
+                                        <input type="text" name="char_str" required value="5">
+                                    </label>
+                                    <label id="stat_agi">
+                                        <input type="text" name="char_agi" required value="5">
+                                    </label>
+                                    <label id="stat_vit">
+                                        <input type="text" name="char_vit" required value="5">
+                                    </label>
+                                    <label id="stat_inte">
+                                        <input type="text" name="char_inte" required value="5">
+                                    </label>
+                                    <label id="stat_dex">
+                                        <input type="text" name="char_dex" required value="5">
+                                    </label>
+                                    <label id="stat_luk">
+                                        <input type="text" name="char_luk" required value="5">
+                                    </label>
                                 </fieldset>
 
                                 <fieldset class="btns clearfix">
@@ -203,7 +229,7 @@ get_header();
                 </div>
 
                 <div class="box-footer">
-                    
+                    <?php echo $dados; ?>
                 </div>
             <?php endwhile;?>
         </div>
