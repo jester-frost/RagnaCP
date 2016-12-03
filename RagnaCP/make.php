@@ -11,7 +11,7 @@ include_once 'includes/functions.php';
 
         $acc_id = $_SESSION["usuario"]->account_id;
 
-        $string = str_replace($letters, "", $_POST["char_name"]);
+        $string = str_replace($letters_char, "", $_POST["char_name"]);
 
         if ( ( strlen( round( $string ) ) >= 6 ) || ( strlen( round( $string ) ) <= 20  ) ):
 
