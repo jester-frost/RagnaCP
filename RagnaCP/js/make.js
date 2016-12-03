@@ -2,16 +2,16 @@ jQuery(function(){
     // Valores Iniciais
     // points = "a=197","b=325" "c=99","d=268" "e=99","f=155" "g=197","h=98" "i=295","j=155" "k=295","l=268"
     var a,b,c,d,e,f,g,h,i,j,k,l = 0; 
-    a = 306;
-    b = 531; // Int Baixo
-    c = 175;
-    d = 455;
-    e = 175;
-    f = 304;
+    a = 310; // 310
+    b = 530; // Int Baixo 650
+    c = 175; // 80
+    d = 460; // 520
+    e = 175; // 80
+    f = 304; // 250
     g = 306;
     h = 229; // STR topo
-    i = 436;
-    j = 304;
+    i = 436; // 530
+    j = 304; // 250
     k = 436;
     l = 455;
 
@@ -43,7 +43,7 @@ jQuery(function(){
             if (stat_str < 9){
                 stat_str++;
                 stat_inte--;
-                $("#poligon").attr("points", a+","+(b=b-27)+" "+c+","+d+" "+e+","+f+" "+g+","+(h=h-27)+" "+i+","+j+" "+k+","+l); 
+                $("#poligon").attr("points", a+","+(b=b-30)+" "+c+","+d+" "+e+","+f+" "+g+","+(h=h-30)+" "+i+","+j+" "+k+","+l); 
             }
             else{
                 $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+e+","+f+" "+g+","+h+" "+i+","+j+" "+k+","+l); 
@@ -56,7 +56,7 @@ jQuery(function(){
             if (stat_vit < 9){
                 stat_vit++;
                 stat_dex--;
-                $("#poligon").attr("points", a+","+b+" "+(c=c+21.5)+","+(d=d-15.5)+" "+e+","+f+" "+g+","+h+" "+(i=i+21.5)+","+(j=j-15.5)+" "+k+","+l);
+                $("#poligon").attr("points", a+","+b+" "+(c=c+23.75)+","+(d=d-15)+" "+e+","+f+" "+g+","+h+" "+(i=i+23.5)+","+(j=j-13.5)+" "+k+","+l);
             }
             else{
                 $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+e+","+f+" "+g+","+h+" "+i+","+j+" "+k+","+l); 
@@ -70,7 +70,7 @@ jQuery(function(){
             if (stat_luk < 9){
                 stat_luk++;
                 stat_agi--;
-                $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+(e=e+21.5)+","+(f=f+15.5)+" "+g+","+h+" "+i+","+j+" "+(k=k+21.5)+","+(l=l+15.5));                
+                $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+(e=e+23.75)+","+(f=f+13.5)+" "+g+","+h+" "+i+","+j+" "+(k=k+24)+","+(l=l+15));                
             }
             else{
                 $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+e+","+f+" "+g+","+h+" "+i+","+j+" "+k+","+l); 
@@ -83,7 +83,7 @@ jQuery(function(){
             if (stat_inte < 9){
                 stat_inte++;
                 stat_str--;
-                $("#poligon").attr("points", a+","+(b=b+27)+" "+c+","+d+" "+e+","+f+" "+g+","+(h=h+27)+" "+i+","+j+" "+k+","+l);                
+                $("#poligon").attr("points", a+","+(b=b+30)+" "+c+","+d+" "+e+","+f+" "+g+","+(h=h+30)+" "+i+","+j+" "+k+","+l);                
             }
             else{
                 $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+e+","+f+" "+g+","+h+" "+i+","+j+" "+k+","+l); 
@@ -96,7 +96,7 @@ jQuery(function(){
             if (stat_dex < 9){
                 stat_dex++;
                 stat_vit--;
-                $("#poligon").attr("points", a+","+b+" "+(c=c-21.5)+","+(d=d+15.5)+" "+e+","+f+" "+g+","+h+" "+(i=i-21.5)+","+(j=j+15.5)+" "+k+","+l);                
+                $("#poligon").attr("points", a+","+b+" "+(c=c-23.75)+","+(d=d+15)+" "+e+","+f+" "+g+","+h+" "+(i=i-23.5)+","+(j=j+13.5)+" "+k+","+l);                
             }
             else{
                 $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+e+","+f+" "+g+","+h+" "+i+","+j+" "+k+","+l); 
@@ -110,7 +110,7 @@ jQuery(function(){
             if (stat_agi < 9){
                 stat_agi++;
                 stat_luk--;
-                $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+(e=e-21.5)+","+(f=f-15.5)+" "+g+","+h+" "+i+","+j+" "+(k=k-21.5)+","+(l=l-15.5));                
+                $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+(e=e-23.75)+","+(f=f-13.5)+" "+g+","+h+" "+i+","+j+" "+(k=k-24)+","+(l=l-15));                
             }
             else{
                 $("#poligon").attr("points", a+","+b+" "+c+","+d+" "+e+","+f+" "+g+","+h+" "+i+","+j+" "+k+","+l); 

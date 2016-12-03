@@ -8,12 +8,12 @@ get_header();
 
 <section class="conteudo limit">
     <aside class="left">
-        <?php include( get_template_directory() . '/includes/menu-left.php' ); ?>
+    	<?php include( get_template_directory() . '/includes/menu-left.php' ); ?>
     </aside>
 
     <article>
 
-        <div class="box">
+		<div class="box">
             <?php while ( have_posts() ) : the_post();?>
                 <h3 class="box-title"><?php the_title(); ?></h3>
                 
@@ -87,7 +87,7 @@ get_header();
 
                                     <svg x="0px" y="0px" viewBox="0 0 612 792" id="object">
                                         <polygon 
-                                        points="306,531 175,455 175,304 306,229 436,304 436,455"
+                                        points="310,530 175,460 175,304 306,229 436,304 436,455"
                                         id="poligon"/>
                                     </svg>
 
@@ -120,11 +120,11 @@ get_header();
                     
                 </div>
             <?php endwhile;?>
-        </div>
+		</div>
     </article>
 
     <aside class="right">
-        <?php include( get_template_directory() . '/includes/vote.php' ); ?>
+    	<?php include( get_template_directory() . '/includes/vote.php' ); ?>
     </aside>
 </section>
 
