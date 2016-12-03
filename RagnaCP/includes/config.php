@@ -21,6 +21,7 @@
     $mapa_x = 53;
     $mapa_y = 111;
     $level_admin = 80; // Aqui o level de ADMIN ( group_id ) do administrador
+    $stats_points = 48; // Quantia de pontos de Status o personagem tem para usar ao criar o personagem
     $qtd_cabelos = 45; // quantia de estilos de cabelo do seu servidor (OBS: ficar atento as imagens pois podem não corresponder as mesmas imagens do seu servidor)
     
     //
@@ -47,7 +48,7 @@
     // ============== Escape de caracteres que podem prejudicar o Servidor =============
     //
     //                                  Evitando Merda
-    $letters =array("<", "Ã", "°", ">", "'",  "\"", "\\",  "/", "(", ")", ";","`", "¿", "ð","","Â", " ", "=");
+    $letters =array("<", "Ã", "°", ">", "'",  "\"", "\\",  "/", "(", ")", ";","`", "¿", "ð","","Â", " ", "=", "?", ":", "%" );
     //
     // ========================== Fim das configurações vitais =========================
     // ============================= Configurações Extras ==============================

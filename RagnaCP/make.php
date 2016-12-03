@@ -3,17 +3,88 @@
 include_once 'includes/config.php'; // loads config variables
 include_once 'includes/functions.php';
 
-    $stats_points = 48;
-
     $status_limit = 9;
 
-    // calculando o que sobra
-    $stats_points = ( $stats_points - ( $str + $agi + $vit + $int + $dex + $luk ) ); 
+    $dados = "";
 
+    if(!empty($_POST) and (isset($_POST["create-char"]))) {
 
-    // INSERT INTO `char` (`char_id`, `account_id`, `char_num`, `name`, `class`, `base_level`, `job_level`, `base_exp`, `job_exp`, `zeny`, `str`, `agi`, `vit`, `int`, `dex`, `luk`, `max_hp`, `hp`, `max_sp`, `sp`, `status_point`, `skill_point`, `option`, `karma`, `manner`, `party_id`, `guild_id`, `pet_id`, `homun_id`, `elemental_id`, `hair`, `hair_color`, `clothes_color`, `body`, `weapon`, `shield`, `head_top`, `head_mid`, `head_bottom`, `robe`, `last_map`, `last_x`, `last_y`, `save_map`, `save_x`, `save_y`, `partner_id`, `online`, `father`, `mother`, `child`, `fame`, `rename`, `delete_date`, `slotchange`, `char_opt`, `font`, `unban_time`, `uniqueitem_counter`, `sex`, `hotkey_rowshift`) VALUES
+        $char_id = ""; 
+        $acc_id = $_SESSION["usuario"]->account_id;
+        $char_slot = "";
 
-    // ($char_id, $acc_id, $char_slot, '$name', 0, $slot, 1, 0, 0, 500, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_hp, $max_sp, $max_sp, $stats_points, 0, 0, 0, 0, 0, 0, 0, 0, 0, $hair, $hair_color, 0, 0, 0, 0, 0, 0, 0, 0, $mapa, $mapa_x, $mapa_y, $mapa, $mapa_x, $mapa_y, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'U', 0);
+        $string = str_replace($letters, "", $_POST["name"]);
+
+        if ( ( strlen( round( $string ) ) >= 6 ) || ( strlen( round( $string ) ) <= 20  ) ):
+            $name = $string;
+        else:
+            $msg .= "O nome do Personagem deve conter entre 6 e 20 Caractéres ;";
+        endif;
+
+        // Estilo de cabelo
+        if( ( round( $_POST["hair"] ) >= 0 ) || ( round( $_POST["hair"] ) <= 11 ) ) :
+            $hair = $_POST["hair"];
+        else: 
+            $msg .= "Estilo de cabelo incorreto ;";
+        endif;
+
+        // Cor de cabelo
+        if( ( round( $_POST["hair_color"] ) >= 0 ) || ( round( $_POST["hair_color"] ) <= 11 ) ) :
+            $hair = $_POST["hair_color"];
+        else: 
+            $msg .= "Estilo de cabelo incorreto ;";
+        endif;
+
+        if( ( round( $_POST["str"] ) <= 9 ) || ( round( $_POST["str"] ) >= 1 ) ) :
+            $str = $_POST["str"];
+        else: 
+            $msg .= "Status Força deve ser Maior que 0 e menor que 10 ;";
+        endif;
+
+        if( ( round( $_POST["agi"] ) <= 9 ) || ( round( $_POST["agi"] ) >= 1 ) ) :
+            $agi = $_POST["agi"];
+        else: 
+            $msg .= "Status Agilidade deve ser Maior que 0 e menor que 10 ;";
+        endif;
+
+        if( ( round( $_POST["vit"] ) <= 9 ) || ( round( $_POST["vit"] ) >= 1 ) ) :
+            $vit = $_POST["vit"];
+            $max_sp = (40 * (100 + $vit)/100);
+        else: 
+            $msg .= "Status Vitalidade deve ser Maior que 0 e menor que 10 ;";
+        endif;
+
+        if( ( round( $_POST["inte"] ) <= 9 ) || ( round( $_POST["inte"] ) >= 1 ) ) :
+            $int = $_POST["inte"];
+            $max_sp = (11 * (100 + $int)/100);
+        else: 
+            $msg .= "Status Inteligência deve ser Maior que 0 e menor que 10 ;";
+        endif;
+
+        if( ( round( $_POST["dex"] ) <= 9 ) || ( round( $_POST["dex"] ) >= 1 ) ) :
+            $dex = $_POST["dex"];
+        else: 
+            $msg .= "Status Destreza deve ser Maior que 0 e menor que 10 ;";
+        endif;
+
+        if( ( round( $_POST["luk"] ) <= 9 ) || ( round( $_POST["luk"] ) >= 1 ) ) :
+            $luk = $_POST["luk"];
+        else: 
+            $msg .= "Status Sorte deve ser Maior que 0 e menor que 10 ;";
+        endif;
+
+        if(!$msg):
+            // calculando o que sobra de pontos de status
+            $stats_points = ( $stats_points - ( $str + $agi + $vit + $int + $dex + $luk ) );
+            $dados = make_char($con, $char_id, $acc_id, $char_slot, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_hp, $stats_points, $mapa, $mapa_x, $mapa_y);
+        else:
+            $dados = implode(';',$msg);
+        endif;
+
+    }else{
+        $dados = "Preencha corretamente os campos necessários para cadastrarmos seu personagem.";
+    }
+
 
 $resumo = get_the_excerpt();
 get_header();
@@ -43,7 +114,9 @@ get_header();
                         <?php the_content(); ?>
 
                         <div class="char_make">
-                            <form action="" name="create-char" method="POST">
+                            <form action="" name="create-char"  method="post">
+                                <input type="hidden" name="hair" value="1" class="hair" required="required">
+                                <input type="hidden" name="hair_color" value="1" class="hair_color" required="required">
                                 <fieldset class="char-appearance">
 
                                     <div class="cabelos">
@@ -79,7 +152,7 @@ get_header();
                                     <div class="obj-char">
                                         <img src="<?php bloginfo(template_url) ?>/images/novice/charsim_<?php echo $_SESSION["usuario"]->sex; ?>.png" border="0" title="char thumbnail">
                                         <label for="">
-                                            <input type="text" name="char-name" placeholder="Nome " class="char-name">
+                                            <input type="text" name="name" minlength="6" maxlength="20" placeholder="" required="required" class="char-name">
                                         </label>
                                     </div>
 
@@ -107,12 +180,12 @@ get_header();
                                 </fieldset>
 
                                 <fieldset class="stats-make">
-                                    <label id="stat_str"><input type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_agi"><input type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_vit"><input type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_inte"><input type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_dex"><input type="number" disabled="disabled" value="5"></label>
-                                    <label id="stat_luk"><input type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_str"><input name ="str" type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_agi"><input name ="agi" type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_vit"><input name ="vit" type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_inte"><input name ="inte" type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_dex"><input name ="dex" type="number" disabled="disabled" value="5"></label>
+                                    <label id="stat_luk"><input name ="luk" type="number" disabled="disabled" value="5"></label>
                                 </fieldset>
 
                                 <fieldset class="btns clearfix">

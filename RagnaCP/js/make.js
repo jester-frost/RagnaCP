@@ -133,9 +133,12 @@ jQuery(function(){
 
         if(cor.find('> li.active').next().length){
             cor.find('> li.active').removeClass('active').next().addClass('active');
+
         }else{
             cor.find('> li').removeClass('active').first().addClass('active');
         }
+
+        jQuery('.hair_color').val( cor.find('> li.active').index() );
 
     })
 
@@ -145,6 +148,7 @@ jQuery(function(){
         }else{
             jQuery('.cor > li > .estilo').find('> li').removeClass('current').parent().find('li:first-child').addClass('current');
         }
+        jQuery('.hair').val( jQuery('.cor > li.active > .estilo ').find(' > li.current').index() );
     })
 
     jQuery('.char-arrows .arrow-left').click(function(){
@@ -153,6 +157,7 @@ jQuery(function(){
         }else{
             jQuery('.cor > li > .estilo').find('> li').removeClass('current').parent().find('li:last-child').addClass('current');
         }
+        jQuery('.hair').val( jQuery('.cor > li.active > .estilo ').find(' > li.current').index() );
     })
 
 });
