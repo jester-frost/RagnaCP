@@ -29,7 +29,7 @@ include_once 'includes/functions.php';
 
                 // Cor de cabelo
                 if( ( round( $_POST["hair_color"] ) >= 0 ) || ( round( $_POST["hair_color"] ) <= 11 ) ) :
-                    $hair = $_POST["hair_color"];
+                    $hair_color = $_POST["hair_color"];
                 else: 
                     $msg .= "Estilo de cabelo incorreto ;";
                 endif;
@@ -79,7 +79,7 @@ include_once 'includes/functions.php';
                     $mapa_y = 111;
                     // calculando o que sobra de pontos de status
                     $stats_final = ( $stats_points - ( $str + $agi + $vit + $int + $dex + $luk ) );
-                    $dados = make_char($con, $acc_id, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $stats_final, $last_map, $mapa_x, $mapa_y);
+                    $dados = make_char($con, $acc_id, $name, $stats_points, $hair, $hair_color, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $stats_final, $last_map, $mapa_x, $mapa_y);
                 else:
                     $dados = implode(';',$msg);
                 endif;
