@@ -115,8 +115,8 @@ get_header();
 
                         <div class="char_make">
                             <form action="" name="create-char"  method="post">
-                                <input type="hidden" name="hair" value="1" class="hair" required="required">
-                                <input type="hidden" name="hair_color" value="1" class="hair_color" required="required">
+                                <input type="hidden" name="hair" value="1" class="hair">
+                                <input type="hidden" name="hair_color" value="1" class="hair_color">
                                 <fieldset class="char-appearance">
 
                                     <div class="cabelos">
@@ -152,7 +152,7 @@ get_header();
                                     <div class="obj-char">
                                         <img src="<?php bloginfo(template_url) ?>/images/novice/charsim_<?php echo $_SESSION["usuario"]->sex; ?>.png" border="0" title="char thumbnail">
                                         <label for="">
-                                            <input type="text" name="name" minlength="6" maxlength="20" placeholder="" required="required" class="char-name">
+                                            <input type="text" name="name" minlength="6" maxlength="20" required="required" class="char-name">
                                         </label>
                                     </div>
 

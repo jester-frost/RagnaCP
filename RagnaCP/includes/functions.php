@@ -1021,6 +1021,9 @@
 
 	function make_char($con, $char_id, $acc_id, $char_slot, $name, $slot, $stats_points, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $mapa, $mapa_x, $mapa_y) {
 
+		$blevel = 1;
+		$jlevel = 0;
+
 		$search_character_query = $con->prepare("SELECT * FROM `char` WHERE account_id = ".$acc_id."");
         $search_character_query->execute();
 
@@ -1039,15 +1042,23 @@
 
         if ($contagem < 11 ) :
 
-			$insert_query = $con->prepare('INSERT INTO `char`(`char_id`, `account_id`, `char_num`, `name`, `class`, `base_level`, `job_level`, `base_exp`, `job_exp`, `zeny`, `str`, `agi`, `vit`, `int`, `dex`, `luk`, `max_hp`, `hp`, `max_sp`, `sp`, `status_point`, `skill_point`, `option`, `karma`, `manner`, `party_id`, `guild_id`, `pet_id`, `homun_id`, `elemental_id`, `hair`, `hair_color`, `clothes_color`, `body`, `weapon`, `shield`, `head_top`, `head_mid`, `head_bottom`, `robe`, `last_map`, `last_x`, `last_y`, `save_map`, `save_x`, `save_y`, `partner_id`, `online`, `father`, `mother`, `child`, `fame`, `rename`, `delete_date`, `slotchange`, `char_opt`, `font`, `unban_time`, `uniqueitem_counter`, `sex`, `hotkey_rowshift`) VALUES ('.$char_id.', '.$acc_id.', '.$char_slot.', '. $name .', 0, $slot, 1, 0, 0, 0, '.$str.', '.$agi.', '.$vit.', '.$int.', '.$dex.', '.$luk.', '.$max_hp.', '.$max_hp.', '.$max_sp.', '.$max_sp.', '.$stats_points.', 0, 0, 0, 0, 0, 0, 0, 0, 0, '.$hair.', '.$hair_color.', 0, 0, 0, 0, 0, 0, 0, 0, '.$mapa.', '.$mapa_x.', '.$mapa_y.', '.$mapa.', '.$mapa_x.', '.$mapa_y.', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "U", 0)');
-			$insert_query->execute($acc_id);
+        		// ultimo char cadastrado
+        		$char_id = ( $con->LastInsertId(`char`) + 1 );
+        		// slot de teste
+        		$slot = 9;
+
+				$cadastrar=array(':char_id'=>$char_id, ':account_id'=>$acc_id, ':char_num'=>$slot, ':name'=>$name , ':base_level'=>$blevel, ':job_level'=>$jlevel, ':str'=>$str, ':agi'=>$agi, ':vit'=>$vit, ':inte'=>$int, ':dex'=>$dex, ':luk'=>$luk, ':max_hp'=>$max_hp, ':hp'=>$max_hp, ':max_sp'=>$max_hp, ':sp'=>$max_sp, ':status_point'=>$stats_point, ':last_map'=>$mapa, ':last_x'=>$mapa_x, ':last_y'=>$mapa_y, ':save_map'=>$mapa, ':save_x'=>$mapa_x, ':save_y'=>$mapa_y);
+
+				$add_char_query = $con->prepare("INSERT INTO `char`(`char_id`, `account_id`, `char_num`, `name`, `base_level`, `job_level`,`str`, `agi`, `vit`, `int`, `dex`, `luk`, `max_hp`, `hp`, `max_sp`, `sp`, `status_point`, `last_map`, `last_x`, `last_y`, `save_map`, `save_x`, `save_y`) VALUES(:char_id, :account_id, :char_num, :name, :base_level, :job_level,:str, :agi, :vit, :inte, :dex, :luk, :max_hp, :hp, :max_sp, :sp, :status_point, :last_map, :last_x, :last_y, :save_map, :save_x, :save_y) ");
+
+				$add_char_query->execute($cadastrar);
 
 			$dados = "Personagem Cadastrado !";
 
 		else:
 			$dados = "Sem spaço para cadastrar novos personagens, entre no jogo e apague um personagem existente para criar um novo.";
 		endif;
-		
+
 		return $dados;
 	}
 
