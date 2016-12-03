@@ -13,11 +13,7 @@ include_once 'includes/functions.php';
 
     // INSERT INTO `char` (`char_id`, `account_id`, `char_num`, `name`, `class`, `base_level`, `job_level`, `base_exp`, `job_exp`, `zeny`, `str`, `agi`, `vit`, `int`, `dex`, `luk`, `max_hp`, `hp`, `max_sp`, `sp`, `status_point`, `skill_point`, `option`, `karma`, `manner`, `party_id`, `guild_id`, `pet_id`, `homun_id`, `elemental_id`, `hair`, `hair_color`, `clothes_color`, `body`, `weapon`, `shield`, `head_top`, `head_mid`, `head_bottom`, `robe`, `last_map`, `last_x`, `last_y`, `save_map`, `save_x`, `save_y`, `partner_id`, `online`, `father`, `mother`, `child`, `fame`, `rename`, `delete_date`, `slotchange`, `char_opt`, `font`, `unban_time`, `uniqueitem_counter`, `sex`, `hotkey_rowshift`) VALUES
 
-    // ($char_id, $acc_id, $char_slot, '$name', 0, $slot, 1, 0, 0, 500, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_hp, $max_sp, $max_sp, $stats_points, 0, 0, 0, 0, 0, 0, 0, 0, 0, $hair, $hair_color, 0, 0, 0, 0, 0, 0, 0, 0, 'prontera', 115, 155, 'new_1-1', 53, 111, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'U', 0);
-
-    
-
-
+    // ($char_id, $acc_id, $char_slot, '$name', 0, $slot, 1, 0, 0, 500, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_hp, $max_sp, $max_sp, $stats_points, 0, 0, 0, 0, 0, 0, 0, 0, 0, $hair, $hair_color, 0, 0, 0, 0, 0, 0, 0, 0, $mapa, $mapa_x, $mapa_y, $mapa, $mapa_x, $mapa_y, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'U', 0);
 
 $resumo = get_the_excerpt();
 get_header();
