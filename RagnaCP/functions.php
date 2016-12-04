@@ -1,4 +1,12 @@
 <?php 
+// Algumas funções úteis
+require_once( get_template_directory() . '/functions-common.php' );
+// Criação de tipos de post personalizados
+include_once( get_template_directory() . '/functions-post-types.php' );
+// Criação de campos personalizados
+include_once( get_template_directory() . '/functions-custom-fields.php' );
+// Criação de shortcodes personalizados
+include_once( get_template_directory() . '/functions-shortcodes.php' );
 
 if ( !class_exists( 'ragna_theme' ) ) :
 
@@ -16,7 +24,9 @@ if ( !class_exists( 'ragna_theme' ) ) :
                     call_user_func( array( __CLASS__, 'register_menus' ) );
                 }
             }
+            
             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'scripts_e_estilos' ) );
+
             call_user_func( array( __CLASS__, 'myStartSession', ) ) ;
         }
 
@@ -63,7 +73,7 @@ if ( !class_exists( 'ragna_theme' ) ) :
              * If you're building a theme based on RagnaCP, use a find and replace
              * to change 'RagnaCP' to the name of your theme in all the template files
              */
-            load_theme_textdomain( 'RagnaCP', get_template_directory() . '/languages' );
+            load_theme_textdomain( 'ragna_theme', get_template_directory() . '/languages' );
 
             // Add default posts and comments RSS feed links to head.
             add_theme_support( 'automatic-feed-links' );
@@ -110,7 +120,7 @@ else :
     wp_die( 'A classe "ragna_theme" foi duplicada, o que aparentemente não deveria acontecer. Entre em contato com o desenvolvedor.' );
 endif;
 
-function twentythirteen_widgets_init() {
+function ragna_theme_widgets_init() {
 
     register_sidebar( array(
         'name'          => __( 'Widget Personalizado', 'ragna' ),
@@ -149,7 +159,7 @@ function twentythirteen_widgets_init() {
 
 }
 
-add_action( 'widgets_init', 'twentythirteen_widgets_init' );
+add_action( 'widgets_init', 'ragna_theme_widgets_init' );
 
 require get_template_directory() . '/inc/custom-header.php';
 

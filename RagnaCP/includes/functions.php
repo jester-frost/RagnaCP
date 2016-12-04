@@ -1046,8 +1046,11 @@
 
         		if($personagens):
 	        		foreach ($personagens as $char):
-	        			if ($char['char_slot'] == $slot ) :
-        					$slot++;
+
+	        			if ( $char['char_slot'] == $slot) {
+	        			 	$slot++;
+	        			}
+        					
 	        			endif;
 	        		endforeach;
         		endif;
