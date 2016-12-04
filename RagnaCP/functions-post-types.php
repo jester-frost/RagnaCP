@@ -10,7 +10,7 @@ class ragna_theme_post_types {
 		        'singular_name' => __( 'Notícia' ),
 	        ),
             'description' => __( 'Ultimas Notícias.' ),
-		    'supports' => array( 'title', 'thumbnail', 'excerpt' ),
+		    'supports' => array( 'title', 'thumbnail', 'excerpt', 'editor' ),
 		    'has_archive' => true,
 		    'show_ui' => true,
 			'public' => true,

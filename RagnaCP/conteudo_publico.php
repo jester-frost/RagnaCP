@@ -30,8 +30,7 @@ get_header();
 
                     <?php }; ?>
 
-                    <p><?php the_excerpt(); ?></p>
-
+                    <?php the_content(); ?>
 
                 </div>
 
