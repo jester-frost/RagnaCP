@@ -254,8 +254,7 @@ form {
     background: url(images/bg-2.jpg) center top no-repeat;
     margin: 0 auto;
     margin-top: 0;
-    height: auto;
-    padding-bottom: 30px;
+    height: 100%;
 }
 .server-status {
     height: 143px;
@@ -1314,11 +1313,32 @@ img.guild-emblem{
 .pvp-char {
     margin: 0 auto;
 }
-.my-char img:first-child,
-.pvp-char img:first-child {
-    margin: 0 0 -11px 0;
+.pvp-char .head {
+    height: 24px;
+    width:36px;
+    margin:0 auto;
     position: relative;
+    margin: 0 auto -6px auto;
 }
+.pvp-char .head img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin:auto;
+    top:0;
+}
+.pvp-char .head img.fix-f-36 {
+    top: -20px;
+}
+
+.my-char img:first-child{
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
 .my-char img,
 .pvp-char img,{
     display: inline-block;

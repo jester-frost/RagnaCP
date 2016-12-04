@@ -89,7 +89,17 @@ get_header();
                                     <h4>Aparência de  <strong><?php echo $c->name; ?></strong> </h4>
                                     <div>
                                         <section class="my-char">
-                                            <img src="<?php bloginfo(template_url) ?>/images/cabelos/<?php echo $_SESSION["usuario"]->sex; ?>/cabelo-<?php echo ($c->hair+1); ?>.gif" alt=""/>
+                                        <?php if ( ( $c->hair == 36 ) && ( $_SESSION["usuario"]->sex == "F" ) ){
+                                            $fix = "fix-36";
+                                        }else{
+                                            $fix = "";
+                                        }
+
+                                        ?>
+
+                                            <span class="head">
+                                                <img src="<?php bloginfo(template_url) ?>/images/cabelos/<?php echo $_SESSION["usuario"]->sex; ?>/cabelo-<?php echo ($c->hair+1); ?>.gif" class="<?php echo $fix; ?>" alt=""/>
+                                            </span>
                                             <img src="<?php bloginfo(template_url) ?>/images/classes/<?php echo $_SESSION["usuario"]->sex; ?>/<?php echo $c->class; ?>.png" alt=""/>
                                         </section>
                                         <table>

@@ -1,4 +1,17 @@
+.reset-char .head {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: -9px;
+    height: 24px;
+    width: 36px;
+    display: inline-block;
+}
 
+.my-char img.fix-36 {
+    margin:0;
+    top: -21px!important;
+}
 /* CHAR MAKER */
 .char_make {
     background: url('./images/win_make.png') no-repeat top left;
