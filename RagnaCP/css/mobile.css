@@ -15,6 +15,9 @@
 }
 
 @media (max-width:767px) {
+	.screen {
+		position: relative;
+	}
 	.ipt {
 		-ms-box-sizing: content-box;
 		-moz-box-sizing: content-box;
