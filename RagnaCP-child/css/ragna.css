@@ -134,6 +134,30 @@ p {
     height: 13px;
     cursor: url('images/pointer.gif'), apontar;
 }
+.screen {
+    width: 300px;
+    min-height: 45px;
+    height: auto;
+    background: url('./images/Ragnarok_logo.png') no-repeat center center;
+    background-size: contain;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding-bottom: 60px;
+}
+.screen h1 {
+    color: #ffffff;
+    text-shadow: 2px 2px 1px #05419b;
+    font-family: cursive;
+    margin: 0 auto;
+    font-size: 20px;
+    text-align: center;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+}
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;

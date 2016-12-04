@@ -78,6 +78,7 @@
 	
 	<div class="top-content limit">
 		<?php include( get_template_directory() . '/includes/login.php' ); ?>
+		<?php include( get_template_directory() . '/includes/server-name.php' ); ?>
 		<?php include( get_template_directory() . '/includes/status.php' ); ?>
 	</div>
 	<div class="content-site limit">
