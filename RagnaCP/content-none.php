@@ -19,7 +19,7 @@ get_header();
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<div class="box">
-			<h3 class="box-title"><?php _e( 'Nothing Found', 'twentyfifteen' ); ?></h3>
+			<h3 class="box-title"><?php _e( 'Nothing Found', 'ragna_theme' ); ?></h3>
 
 			<div class="spacer">
 			
@@ -31,16 +31,16 @@ get_header();
 
 				<?php if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
 
-					<p><?php printf( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'twentyfifteen' ), esc_url( admin_url( 'post-new.php' ) ) ); ?></p>
+					<p><?php printf( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'ragna_theme' ), esc_url( admin_url( 'post-new.php' ) ) ); ?></p>
 
 				<?php elseif ( is_search() ) : ?>
 
-					<p><?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'twentyfifteen' ); ?></p>
+					<p><?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'ragna_theme' ); ?></p>
 					<?php get_search_form(); ?>
 
 				<?php else : ?>
 
-					<p><?php _e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'twentyfifteen' ); ?></p>
+					<p><?php _e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'ragna_theme' ); ?></p>
 					<?php get_search_form(); ?>
 
 				<?php endif; ?>

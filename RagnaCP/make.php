@@ -229,7 +229,26 @@ get_header();
                 </div>
 
                 <div class="box-footer">
-                    <?php echo $dados; ?>
+                    <?php  
+
+/*
+                        $slot = 0;
+
+                        if($dados):
+                            foreach ($dados as $char):
+                                if ($char['char_slot'] == $slot ) :
+
+                                    $slot = ($slot+1);
+
+                                endif;
+                            endforeach;
+                        endif;
+*/
+
+                        print_r( $dados );
+
+
+                    ?>
                 </div>
             <?php endwhile;?>
         </div>

@@ -7,14 +7,14 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php twentyfifteen_post_thumbnail(); ?>
+	<?php ragna_theme_post_thumbnail(); ?>
 
 	<header class="entry-header">
 		<?php
 			if ( is_single() ) :
-				the_title( sprintf( '<h1 class="entry-title"><a href="%s">', esc_url( twentyfifteen_get_link_url() ) ), '</a></h1>' );
+				the_title( sprintf( '<h1 class="entry-title"><a href="%s">', esc_url( ragna_theme_get_link_url() ) ), '</a></h1>' );
 			else :
-				the_title( sprintf( '<h2 class="entry-title"><a href="%s">', esc_url( twentyfifteen_get_link_url() ) ), '</a></h2>' );
+				the_title( sprintf( '<h2 class="entry-title"><a href="%s">', esc_url( ragna_theme_get_link_url() ) ), '</a></h2>' );
 			endif;
 		?>
 	</header>
@@ -24,16 +24,16 @@
 		<?php
 			/* translators: %s: Name of current post */
 			the_content( sprintf(
-				__( 'Continue reading %s', 'twentyfifteen' ),
+				__( 'Continue reading %s', 'ragna_theme' ),
 				the_title( '<span class="screen-reader-text">', '</span>', false )
 			) );
 
 			wp_link_pages( array(
-				'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentyfifteen' ) . '</span>',
+				'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'ragna_theme' ) . '</span>',
 				'after'       => '</div>',
 				'link_before' => '<span>',
 				'link_after'  => '</span>',
-				'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>%',
+				'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'ragna_theme' ) . ' </span>%',
 				'separator'   => '<span class="screen-reader-text">, </span>',
 			) );
 		?>
@@ -48,8 +48,8 @@
 	?>
 
 	<footer class="entry-footer">
-		<?php twentyfifteen_entry_meta(); ?>
-		<?php edit_post_link( __( 'Edit', 'twentyfifteen' ), '<span class="edit-link">', '</span>' ); ?>
+		<?php ragna_theme_entry_meta(); ?>
+		<?php edit_post_link( __( 'Edit', 'ragna_theme' ), '<span class="edit-link">', '</span>' ); ?>
 	</footer>
 	<!-- .entry-footer -->
 

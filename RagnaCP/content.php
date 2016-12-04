@@ -12,30 +12,35 @@
 
 	    <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-		<?php
-					if ( is_single() ) :
-						the_title( '<h1 class="entry-title">', '</h1>' );
-					else :
-						the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
-					endif;
-				?>
+		
 			<div class="box">
-				<h3 class="box-title">Post</h3>
+				<h3 class="box-title">
+					<?php
+						if ( is_single() ) :
+							the_title();
+						else :
+							the_title( sprintf( '<a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a>' );
+						endif;
+					?>
+					
+				</h3>
 
 				<div class="spacer">
 					<?php
 						/* translators: %s: Name of current post */
+						the_excerpt('<h3">', '</h3>');
+
 						the_content( sprintf(
-							__( 'Continue Lendo %s', 'twentyfifteen' ),
+							__( 'Continue Lendo %s', 'ragna_theme' ),
 							the_title( '<span class="screen-reader-text">', '</span>', false )
 						) );
 
 						wp_link_pages( array(
-							'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentyfifteen' ) . '</span>',
+							'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'ragna_theme' ) . '</span>',
 							'after'       => '</div>',
 							'link_before' => '<span>',
 							'link_after'  => '</span>',
-							'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>%',
+							'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'ragna_theme' ) . ' </span>%',
 							'separator'   => '<span class="screen-reader-text">, </span>',
 						) );
 					?>
@@ -49,7 +54,7 @@
 				?>
 				<div class="box-footer">
 
-					<?php edit_post_link( __( 'Edit', 'twentyfifteen' ), '<span class="edit-link"> ', ' </span>' ); ?>
+					<?php edit_post_link( __( 'Edit', 'ragna_theme' ), '<span class="edit-link"> ', ' </span>' ); ?>
 				</div>
 			</div>
 </div>

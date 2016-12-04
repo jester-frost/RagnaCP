@@ -2,9 +2,7 @@
 /* Template Name: [ Conteudo Publico ] */
 include_once 'includes/config.php'; // loads config variables
 include_once 'includes/functions.php';
-
 $resumo = get_the_excerpt();
-
 get_header();
 ?>
 
@@ -32,7 +30,7 @@ get_header();
 
                     <?php }; ?>
 
-                    <p><?php the_content(); ?></p>
+                    <p><?php the_excerpt(); ?></p>
 
 
                 </div>
