@@ -1046,11 +1046,8 @@
 
         		if($personagens):
 	        		foreach ($personagens as $char):
-
-	        			if ( $char['char_slot'] == $slot) {
-	        			 	$slot++;
-	        			}
-        					
+	        			if ($char['char_slot'] == $slot ) :
+        					$slot = ($slot+1);
 	        			endif;
 	        		endforeach;
         		endif;
@@ -1151,7 +1148,7 @@
 
 		$account_query = $con->prepare("SELECT `name` FROM `char` WHERE `name` = :name ORDER BY `account_id`");
 		$account_query->execute($acc);
-		$account_info = $account_query->fetchAll(PDO::FETCH_OBJ);
+		$account_info = $account_query->fetch(PDO::FETCH_OBJ);
 
 		if($account_info):
 			$dados = $account_info->name;
