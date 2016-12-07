@@ -1078,58 +1078,7 @@
 					':save_x'		=>$mapa_x, 
 					':save_y'		=>$mapa_y
 				);
-				$add_char_query = $con->prepare("INSERT INTO `char`(
-						`account_id`, 
-						`char_num`, 
-						`name`, 
-						`base_level`, 
-						`job_level`, 
-						`str`, 
-						`agi`, 
-						`vit`, 
-						`int`, 
-						`dex`, 
-						`luk`, 
-						`max_hp`, 
-						`hp`, 
-						`max_sp`, 
-						`sp`, 
-						`status_point`, 
-						`hair`,
-						`hair_color`,
-						`last_map`, 
-						`last_x`, 
-						`last_y`, 
-						`save_map`, 
-						`save_x`, 
-						`save_y`
-					) VALUES(
-					:account_id, 
-					:char_num, 
-					:name, 
-					:base_level, 
-					:job_level, 
-					:str, 
-					:agi, 
-					:vit, 
-					:inte, 
-					:dex, 
-					:luk, 
-					:max_hp, 
-					:hp, 
-					:max_sp, 
-					:sp, 
-					:status_point, 
-					:hair,
-					:hair_color,
-					:last_map, 
-					:last_x, 
-					:last_y, 
-					:save_map, 
-					:save_x, 
-					:save_y
-					) 
-				");
+				$add_char_query = $con->prepare("INSERT INTO `char`( `account_id`, `char_num`, `name`, `base_level`, `job_level`, `str`, `agi`, `vit`, `int`, `dex`, `luk`, `max_hp`, `hp`, `max_sp`, `sp`, `status_point`, `hair`, `hair_color`, `last_map`, `last_x`, `last_y`, `save_map`, `save_x`, `save_y` ) VALUES( :account_id, :char_num, :name, :base_level, :job_level, :str, :agi, :vit, :inte, :dex, :luk, :max_hp, :hp, :max_sp, :sp, :status_point, :hair, :hair_color, :last_map, :last_x, :last_y, :save_map, :save_x, :save_y) ");
 
 				$add_char_query->execute($cadastrar);
 
