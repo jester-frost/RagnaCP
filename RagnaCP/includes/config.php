@@ -37,6 +37,8 @@
     $sua_senha      =   'Senha_do_email_acima';
     /* Se for do Gmail o servidor é: smtp.gmail.com */
     $host_do_email  =   'smtp.gmail.com'; // deixar como está caso use Gmail
+    /* Porta da conexão */
+    $sua_porta  = "465";
     //
     //
     //

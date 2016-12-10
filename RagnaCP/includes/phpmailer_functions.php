@@ -38,7 +38,7 @@
 		    /* Protocolo da conexão */
 		    $mail->SMTPSecure = "ssl";
 		    /* Porta da conexão */
-		    $mail->Port = "465";
+		    $mail->Port = $sua_porta;
 		    /* Email ou usuário para autenticação */
 		    $mail->Username = $seu_email;
 		    /* Senha do usuário */
