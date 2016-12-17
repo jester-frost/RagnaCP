@@ -1,7 +1,7 @@
 <?php
 	require("PHPMailer-master/PHPMailerAutoload.php");
 
- 	function enviar_email($email){
+ 	function enviar_email($con, $email, $host_do_email, $sua_porta, $seu_email, $sua_senha){
 
  		$dados=array(':email'=>$email);
  		include("config.php");

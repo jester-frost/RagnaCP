@@ -1,16 +1,16 @@
 <?php
     /* Template Name: [ Recuperar Senha ] */
     include("includes/phpmailer_functions.php");
+    include('includes/config.php'); // loads config variables
+    include('includes/functions.php');
+
     if(!empty($_POST) and (isset($_POST["enviar"]))) {
 
-    $email = str_replace($letters, "", $_POST["email"]);
-    $dados = enviar_email($email);
-
-    }else{
+        $email = str_replace($letters, "", $_POST["email"]);
+        $dados = enviar_email($con, $email, $host_do_email, $sua_porta, $seu_email, $sua_senha);
 
     }
-    include_once 'includes/config.php'; // loads config variables
-    include_once 'includes/functions.php';
+
     $resumo = get_the_excerpt();
     get_header();
 ?>
@@ -18,12 +18,12 @@
 <section class="conteudo limit">
 
     <aside class="left">
-    	<?php include( get_template_directory() . '/includes/menu-left.php' ); ?>
+        <?php include( get_template_directory() . '/includes/menu-left.php' ); ?>
     </aside>
 
     <article>
 
-		<div class="box">
+        <div class="box">
 
             <?php while ( have_posts() ) : the_post();?>
 
@@ -59,7 +59,7 @@
     </article>
 
     <aside class="right">
-    	<?php include( get_template_directory() . '/includes/vote.php' ); ?>
+        <?php include( get_template_directory() . '/includes/vote.php' ); ?>
     </aside>
 </section>
 
