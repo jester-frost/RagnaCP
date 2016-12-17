@@ -13,12 +13,12 @@
 			$mensagem = "<table>";
 			foreach ($usuario as $us) {
 				$i = $i+1;
-				$mensagem .= '<tr>' . $i . '° Conta.<tr>';
-				$mensagem .= '<tr><tr>';
+				$mensagem .= '<tr>' . $i . '° Conta.</tr>';
+				$mensagem .= '<tr></tr>';
 				$mensagem .= '<tr> <td>Login: ' . $us->userid . '</td></tr>';
 				$mensagem .= '<tr> <td>Senha: ' . $us->user_pass . '</td></tr>';
-				$mensagem .= '<tr><tr>';
-				$mensagem .= '<tr><tr>';
+				$mensagem .= '<tr></tr>';
+				$mensagem .= '<tr></tr>';
 			}
 			$mensagem .= "</table>";
 			
