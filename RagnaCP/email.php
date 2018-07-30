@@ -1,16 +1,16 @@
 <?php
     /* Template Name: [ Recuperar Senha ] */
     include("includes/phpmailer_functions.php");
-    include('includes/config.php'); // loads config variables
-    include('includes/functions.php');
-
     if(!empty($_POST) and (isset($_POST["enviar"]))) {
 
-        $email = str_replace($letters, "", $_POST["email"]);
-        $dados = enviar_email($con, $email, $host_do_email, $sua_porta, $seu_email, $sua_senha);
+    $email = str_replace($letters, "", $_POST["email"]);
+    $dados = enviar_email($email);
+
+    }else{
 
     }
-
+    include_once 'includes/config.php'; // loads config variables
+    include_once 'includes/functions.php';
     $resumo = get_the_excerpt();
     get_header();
 ?>
