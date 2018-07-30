@@ -1017,40 +1017,71 @@
 	}
 
 
-	// Make Char
+	// Busca Make Char
 
+	function MakesearchChar($con, $name){
+
+		$acc=array(':name'=>$char_name);
+
+		$account_query = $con->prepare("SELECT `name` FROM `char` WHERE `name` = :name ORDER BY `account_id`");
+		$account_query->execute($acc);
+		$account_info = $account_query->fetchAll(PDO::FETCH_OBJ);
+		if($account_info):
+			$dados = $account_info->name;
+		else:
+			$dados = "";
+		endif;
+
+		return $dados;
+	}
+
+	// Make Char
 	function make_char($con, $acc_id, $name, $stats_points, $hair, $hair_color, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $stats_final, $last_map, $mapa_x, $mapa_y){
 
 		$blevel = 1;
 		$jlevel = 0;
 
-		$search_character_query = $con->prepare("SELECT * FROM `char` WHERE account_id = ".$acc_id."");
+		// Lista de chars
+		$search_character_query = $con->prepare("SELECT * FROM `char` WHERE `account_id` = ".$acc_id."");
         $search_character_query->execute();
-
         $chars = $search_character_query->fetchAll(PDO::FETCH_OBJ);
 
-        $personagens = array();
+        // Ver nome
+        $acc=array(':name'=>$name);
 
-        foreach ( $chars as $char ) :
-        	$personagens[] = array( 
-        		'char_id' => $char->char_id,
-        		'char_slot' => $char->char_num,
-        		);
-        endforeach;
+		$account_query = $con->prepare("SELECT `name` FROM `char` WHERE `name` = :name ORDER BY `account_id`");
+		$account_query->execute($acc);
+		$found = $account_query->fetchAll(PDO::FETCH_OBJ);
 
-        $contagem = count($personagens);
+        if( ! $found ):
 
-        if ($contagem < 11 ) :
-        		// slot de teste
-        		$slot = 0;
+	        $personagens = array();
+	        for ($i=0; $i < 12 ; $i++) {
+	        	$personagens[$i] = null;
+	        }
+	    	for ($i=0; $i < 12 ; $i++) { 
+		        foreach ( $chars as $char ) :
+		    		if( $char->char_num == $i ){
+			        	$personagens[$i] = array( 
+			        		'char_id' => $char->char_id,
+			        		'char_slot' => $char->char_num,
+		        		);
+		    		}
+		        endforeach;
+	    	}
+	        $contagem = count( array_filter( $personagens ) );
 
-        		if($personagens):
-	        		foreach ($personagens as $char):
-	        			if ($char['char_slot'] == $slot ) :
-        					$slot = ($slot+1);
-	        			endif;
-	        		endforeach;
-        		endif;
+	        if ( $contagem < 11 ) :
+	    		// slot de teste
+	    		$slot = 0;
+
+	    		for ( $i=0; $i < 12 ; $i++) { 
+	    			if( $personagens[$i] == null ){
+						$slot = $i;
+						break;
+	    			}
+	    		}
+
 
 				$cadastrar=array(
 					':account_id'	=>$acc_id, 
@@ -1078,35 +1109,74 @@
 					':save_x'		=>$mapa_x, 
 					':save_y'		=>$mapa_y
 				);
-				$add_char_query = $con->prepare("INSERT INTO `char`( `account_id`, `char_num`, `name`, `base_level`, `job_level`, `str`, `agi`, `vit`, `int`, `dex`, `luk`, `max_hp`, `hp`, `max_sp`, `sp`, `status_point`, `hair`, `hair_color`, `last_map`, `last_x`, `last_y`, `save_map`, `save_x`, `save_y` ) VALUES( :account_id, :char_num, :name, :base_level, :job_level, :str, :agi, :vit, :inte, :dex, :luk, :max_hp, :hp, :max_sp, :sp, :status_point, :hair, :hair_color, :last_map, :last_x, :last_y, :save_map, :save_x, :save_y) ");
+				$add_char_query = $con->prepare("INSERT INTO `char`(
+							`account_id`, 
+							`char_num`, 
+							`name`, 
+							`base_level`, 
+							`job_level`, 
+							`str`, 
+							`agi`, 
+							`vit`, 
+							`int`, 
+							`dex`, 
+							`luk`, 
+							`max_hp`, 
+							`hp`, 
+							`max_sp`, 
+							`sp`, 
+							`status_point`, 
+							`hair`,
+							`hair_color`,
+							`last_map`, 
+							`last_x`, 
+							`last_y`, 
+							`save_map`, 
+							`save_x`, 
+							`save_y`
+					) VALUES(
+					:account_id, 
+					:char_num, 
+					:name, 
+					:base_level, 
+					:job_level, 
+					:str, 
+					:agi, 
+					:vit, 
+					:inte, 
+					:dex, 
+					:luk, 
+					:max_hp, 
+					:hp, 
+					:max_sp, 
+					:sp, 
+					:status_point, 
+					:hair,
+					:hair_color,
+					:last_map, 
+					:last_x, 
+					:last_y, 
+					:save_map, 
+					:save_x, 
+					:save_y
+					) 
+				");
 
 				$add_char_query->execute($cadastrar);
 
-			$dados = "Personagem Cadastrado !";
+				$dados = "Personagem Cadastrado !";
+
+			else:
+				$dados = "Sem spaço para cadastrar novos personagens, entre no jogo e apague um personagem existente para criar um novo.";
+			endif;
 
 		else:
-			$dados = "Sem spaço para cadastrar novos personagens, entre no jogo e apague um personagem existente para criar um novo.";
+			$dados = "Já existe um personagem com este nome, tente um nome diferente";
 		endif;
 
 		return $dados;
 	}
 
-	function MakesearchChar($con, $char_name){
-
-		$acc=array(':name'=>$char_name);
-
-		$account_query = $con->prepare("SELECT `name` FROM `char` WHERE `name` = :name ORDER BY `account_id`");
-		$account_query->execute($acc);
-		$account_info = $account_query->fetch(PDO::FETCH_OBJ);
-
-		if($account_info):
-			$dados = $account_info->name;
-		else:
-			$dados = "";
-		endif;
-
-		return $dados;
-	}
 	
 
  ?>

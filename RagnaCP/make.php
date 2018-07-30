@@ -81,7 +81,7 @@ include_once 'includes/functions.php';
                     $stats_final = ( $stats_points - ( $str + $agi + $vit + $int + $dex + $luk ) );
                     $dados = make_char($con, $acc_id, $name, $stats_points, $hair, $hair_color, $str, $agi, $vit, $int, $dex, $luk, $max_hp, $max_sp, $stats_final, $last_map, $mapa_x, $mapa_y);
                 else:
-                    $dados = explode(';',$msg);
+                    $dados = implode(';',$msg);
                 endif;
 
             else:
@@ -229,12 +229,7 @@ get_header();
                 </div>
 
                 <div class="box-footer">
-                    <?php  
-                        foreach ($dados as $dado) {
-                            $msg .= "<p>" . $dado . "</p><br>";
-                        };
-                        echo $msg;
-                    ?>
+                    <?php echo  $dados; ?>
                 </div>
             <?php endwhile;?>
         </div>
