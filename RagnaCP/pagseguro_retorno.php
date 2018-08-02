@@ -13,18 +13,19 @@ $acc=array(':transaction_id'=> $_GET['transaction_id']);
 $account_query = $con->prepare("SELECT `account_id` FROM `doacao` WHERE transaction_id = :transaction_id");
 $account_query->execute($acc);
 $account_info = $account_query->fetchAll(PDO::FETCH_OBJ);
-
+$today = date('Y-m-j h-i-s');
 $valores=array(
 	':account_id'=>$transactionInfo['reference'],
 	':valor'=>$transactionInfo['grossAmount'],
 	':Rops'=>($transactionInfo['grossAmount'] * $rops_por_real ),
 	':estado'=>$transactionInfo['status'],
 	':transaction_id'=>$transactionInfo['code'],
-	':email'=>$transactionInfo['sender']['email']
+	':email'=>$transactionInfo['sender']['email'],
+	':data'=>$today
 	);
 if (empty($account_info)){
 
-	$add_compra_query = $con->prepare("INSERT INTO `doacao`(account_id,valor,Rops,estado,transaction_id,email) VALUES(:account_id, :valor, :Rops, :estado, :transaction_id, :email) ");
+	$add_compra_query = $con->prepare("INSERT INTO `doacao`(account_id,data,valor,Rops,estado,transaction_id,email) VALUES(:account_id, :data, :valor, :Rops, :estado, :transaction_id, :email) ");
 	$add_compra_query->execute($valores);	
 	$dados = "Obrigado pela compra!";
 }
