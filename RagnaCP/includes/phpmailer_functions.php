@@ -128,7 +128,7 @@
 					$mensagem .= '<tr><tr>';
 				}
 				$mensagem .= "</table>";
-				$msg_sent = "<div class='ui positive message'>Um Email foi enviado para ".$email.",<br> em alguns instantes irá receber o email contendo instruções para atualização de senha. </div>";
+				$msg_sent = "<div class='ui positive message'>Um Email foi enviado para ".$email.",<br> em alguns instantes irá receber o email</div>";
 				$msg = send($mensagem, $email, $host_do_email, $seu_email, $sua_senha, $seu_nome, $assunto, $msg_sent);
 			}
 		}else{
