@@ -35,7 +35,7 @@
     //
     // Recomendo a todos usarem um email do Gmail mesmo, pois é muito bom e vai ser uma coisa a menos pra pesar na banda do servidor
     // Outro detalhe, é preciso habilitar Aplicativos menos seguros, https://support.google.com/accounts/answer/6010255?hl=pt-BR, e configurar o SMTP do email a ser usado
-    $pagina_recuberacao = 'recuperar-senha';
+    $pagina_recuperacao = 'recuperar-senha';
     $assunto = 'Recuperação de Senha';
     $seu_email      =   'email_servidor@gmail.com';
     $seu_nome       =   'Nome do Servidor'; // Esse nome é usado no Title do Header, nos rights do footer e no corpo do E-mail
