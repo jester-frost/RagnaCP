@@ -1,6 +1,7 @@
 <?php
     include('config.php');
-    $doacoes = doacaoPendente($con);
+    $id = $_SESSION["usuario"]->account_id;
+    $doacoes = doacaoPendente($con, $id);
 ?>
 
 <table  id="conteudo" class="rank-player">
@@ -22,43 +23,39 @@
         </tr>
     </thead>
     <tbody>
-        <?php if( $doacoes ): ?>
-        <?php 
-            include 'analise.php';
-            $i = 0;
-            foreach ($doacoes as $c) :
-                $i = $i+1;
-        ?>
-            <tr>
-                <td>
-                    <div align="center">
-                        <?php echo $i;?>
-                    </div>
-                </td>
-                <td>
-                    <div align="center">
-                        <?php echo $c->data;?>
-                    </div>
-                </td>
-                <td>
-                    <div align="center">
-                        <?php echo "R$ ".$c->valor.",00";?>
-                    </div>
-                </td>
-                <td>
-                    <div align="center">
-                        <?php echo $c->Rops;?>
-                    </div>
-                </td>
-                <td>
-                    <div align="center">
-                        <?php echo $sts[$c->estado]; ?>
-                    </div>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        <?php else: ?>
-            <p>Sem Doações pendentes.</p>
-    <?php endif; ?>
+    <?php 
+        include 'analise.php';
+        $i = 0;
+        foreach ($doacoes as $c) :
+            $i = $i+1;
+    ?>
+        <tr>
+            <td>
+                <div align="center">
+                    <?php echo $i;?>
+                </div>
+            </td>
+            <td>
+                <div align="center">
+                    <?php echo $c->data;?>
+                </div>
+            </td>
+            <td>
+                <div align="center">
+                    <?php echo "R$ ".$c->valor.",00";?>
+                </div>
+            </td>
+            <td>
+                <div align="center">
+                    <?php echo $c->Rops;?>
+                </div>
+            </td>
+            <td>
+                <div align="center">
+                    <?php echo $sts[$c->estado]; ?>
+                </div>
+            </td>
+        </tr>
+    <?php endforeach; ?>
     </tbody>
 </table>

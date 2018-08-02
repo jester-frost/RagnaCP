@@ -968,7 +968,7 @@
 	//  Tabela de Doações
 	/*====================================================*/
 
-	function doacaoPaga($con){
+	function doacaoPaga($con, $id){
 		$doacao_query = $con->prepare("SELECT * FROM `doacao` WHERE account_id = ".$_SESSION["usuario"]->account_id." AND estado = 3 ");
 	    $doacao_query->execute();
 	    $doacoes = $doacao_query->fetchAll(PDO::FETCH_OBJ);
@@ -976,7 +976,7 @@
 	    return $doacoes;
 	}
 
-	function doacaoPendente($con){
+	function doacaoPendente($con, $id){
 		$doacao_query = $con->prepare("SELECT * FROM `doacao` WHERE account_id = ".$_SESSION["usuario"]->account_id." AND estado!= 3 ");
 	    $doacao_query->execute();
 	    $doacoes = $doacao_query->fetchAll(PDO::FETCH_OBJ);
