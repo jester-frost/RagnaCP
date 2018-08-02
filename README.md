@@ -4,17 +4,16 @@ Tema com funções similares ao CeresCP
 Para utilizar o Tema será necessário baixar o Wordpress, no link https://wordpress.org/download/
 Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
 
-#Pré requisitos
+# Pré requisitos
 	PHP versão 5.6.29 ou >
 	MySQL PHP versão 5.4 ou >
 	CUrl habilitado ( Para o PagSeguro )
 	SimpleXML habilitado ( Para o PagSeguro )
-#licença
+# licença
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licença Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Dataset" property="dct:title" rel="dct:type">Tema RagnaCP</span> de <a xmlns:cc="http://creativecommons.org/ns#" href="ragnacrashers.com.br" property="cc:attributionName" rel="cc:attributionURL">Marcos Gonçalves de Lima</a> está licenciado com uma Licença <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons - Atribuição 4.0 Internacional</a>.<br />Baseado no trabalho disponível em <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/jester-frost/RagnaCP/" rel="dct:source">https://github.com/jester-frost/RagnaCP/</a>.<br />Podem estar disponíveis autorizações adicionais às concedidas no âmbito desta licença enviando email para: <a xmlns:cc="http://creativecommons.org/ns#" href="mailto:marcos@visie.com.br" rel="cc:morePermissions">marcos@visie.com.br</a>
-
 # Configurações
-    //===================== Configurações VItáis para o painel =========================
+    //===================== Configurações Vitáis para o painel =========================
     //
     //
     //
@@ -31,7 +30,13 @@ Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
         )
     );
+    // Mapa de inicio do personagem ( Mudar de acordo com os critérios do servidor)
+    $mapa = 'new_1-1';
+    $mapa_x = 53;
+    $mapa_y = 111;
     $level_admin = 80; // Aqui o level de ADMIN ( group_id ) do administrador
+    $stats_points = 48; // Quantia de pontos de Status o personagem tem para usar ao criar o personagem
+    $qtd_cabelos = 45; // quantia de estilos de cabelo do seu servidor (OBS: ficar atento as imagens pois podem não corresponder as mesmas imagens do seu servidor)
     
     //
     // =================================================================================
@@ -44,12 +49,15 @@ Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
     //
     // Recomendo a todos usarem um email do Gmail mesmo, pois é muito bom e vai ser uma coisa a menos pra pesar na banda do servidor
     // Outro detalhe, é preciso habilitar Aplicativos menos seguros, https://support.google.com/accounts/answer/6010255?hl=pt-BR, e configurar o SMTP do email a ser usado
+    $pagina_recuberacao = 'recuperar-senha';
     $assunto = 'Recuperação de Senha';
     $seu_email      =   'email_servidor@gmail.com';
     $seu_nome       =   'Nome do Servidor'; // Esse nome é usado no Title do Header, nos rights do footer e no corpo do E-mail
     $sua_senha      =   'Senha_do_email_acima';
     /* Se for do Gmail o servidor é: smtp.gmail.com */
     $host_do_email  =   'smtp.gmail.com'; // deixar como está caso use Gmail
+    /* Porta da conexão */
+    $sua_porta  = "465";
     //
     //
     //
@@ -57,7 +65,8 @@ Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
     // ============== Escape de caracteres que podem prejudicar o Servidor =============
     //
     //                                  Evitando Merda
-    $letters =array("<", "Ã", "°", ">", "'",  "\"", "\\",  "/", "(", ")", ";","`", "¿", "ð","","Â", " ", "=");
+    $letters_char =array("<", "°", ">", "'",  "\"", "\\",  "/", "(", ")", ";","`", "¿","", "=", "?", ":", "-", "%");
+    $letters =array("<", "Ã", "°", ">", "'",  "\"", "\\",  "/", "(", ")", ";","`", "¿", "ð","","Â", " ", "=", "?", ":", "%" );
     //
     // ========================== Fim das configurações vitais =========================
     // ============================= Configurações Extras ==============================
@@ -71,6 +80,17 @@ Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
     // MD5 Pass, suporte para login e modificação de senha
     // true ou false
     $md5 = false;
+    /*  Tabela da recuperação de senha deve ser inserida no BD do emulador
+    
+        CREATE TABLE `passchange` (
+          `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+          `hash` varchar(255) NOT NULL,
+          `email` varchar(255) NOT NULL,
+          `data_change` datetime(6) NOT NULL,
+          `change_validate` tinyint(1) DEFAULT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+    */
     //
     // ================================================================================
     // ============================= maldito vote points ==============================
@@ -81,9 +101,6 @@ Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
     // Aqui os links dos tops que seu servidor foi cadastrado
     //
     $points_per_click = 3;
-    $link1="http://www.topservers200.com/in.php?id=15873";              // Link do TOP 1
-    $link2="http://www.topragnarok.com.br/index.php?s=vote&id=22134";   // Link do TOP 2
-    $link3="http://www.topragnarok100.com.br/votar/rgcrashers";         // Link do TOP 3
     //
     //
         if ($vote_points) {
@@ -101,12 +118,14 @@ Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
             PRIMARY KEY (`account_id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
             */
-            $link_array = serialize( array(
-                1 => $link1,
-                2 => $link2,
-                3 => $link3,
-            ));
-            $links = unserialize($link_array);
+
+            $link_array = array(
+                1 => "http://www.topservers200.com/in.php?id=15873",
+                2 => "http://www.topragnarok.com.br/index.php?s=vote&id=22134",
+                3 => "http://www.topragnarok100.com.br/votar/rgcrashers",
+            );
+
+            $links = $link_array;
         }
     //
     //
@@ -124,8 +143,23 @@ Os temas deverão ficar na pasta themes dentro de wordpress/wp-content
     //
     // == Recomendável ler a documentação do pague seguro antes de habilitar isso aqui
     //
+    // Pagueseguro app
+    // true or false
+    //
+    $pagueseguro = true;
+    //
+    /*
+        CREATE TABLE `doacao` (
+          `account_id` int(11) UNSIGNED NOT NULL,
+          `data` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+          `valor` int(11) NOT NULL,
+          `Rops` int(11) NOT NULL,
+          `estado` int(11) UNSIGNED NOT NULL DEFAULT '0',
+          `transaction_id` varchar(100) NOT NULL DEFAULT '',
+          `email` varchar(39) NOT NULL DEFAULT ''
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    */
     // ===============================================================================
-    // Na pasta NPCS e SQL inportar no banco do jogo a tabela doacao.sql
     // Token gerado pelo pague seguro
     $token ='XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
     //

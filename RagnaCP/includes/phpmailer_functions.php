@@ -1,28 +1,23 @@
 <?php
 	require("PHPMailer-master/PHPMailerAutoload.php");
 
- 	function enviar_email($con, $email, $host_do_email, $sua_porta, $seu_email, $sua_senha){
+ 	function enviar_email($email , $md5 ){
 
- 		$dados=array(':email'=>$email);
- 		include("config.php");
-		$search_email_query = $con->prepare("SELECT * FROM login WHERE email=:email");
-		$search_email_query->execute($dados);
-		$usuario=$search_email_query->fetchall(PDO::FETCH_OBJ);
-
-		if ($usuario) {
+		function msg( $usuario, $email, $site, $pagina_recuberacao, $hash ){
+			$usuario = array_shift($usuario);
 			$mensagem = "<table>";
-			foreach ($usuario as $us) {
-				$i = $i+1;
-				$mensagem .= '<tr>' . $i . '° Conta.</tr>';
-				$mensagem .= '<tr></tr>';
-				$mensagem .= '<tr> <td>Login: ' . $us->userid . '</td></tr>';
-				$mensagem .= '<tr> <td>Senha: ' . $us->user_pass . '</td></tr>';
-				$mensagem .= '<tr></tr>';
-				$mensagem .= '<tr></tr>';
-			}
+			$mensagem .= '<tr>Olá '.$usuario->userid.', foi solicitado que enviassemos um email de redefinição de senha, Caso não tenha sido solicitado ignore este email.</tr>';
+			$mensagem .= '<tr> <strong>Informações da conta</strong></tr>';
+			$mensagem .= '<tr> <td> <strong>Login:</strong> ' . $usuario->userid . '</td></tr>';
+			$mensagem .= '<tr> <td> <strong>Email:</strong> ' . $email . '</td></tr>';
+			$mensagem .= '<tr> <td>Clique no <a href="'.$site.'/'.$pagina_recuberacao.'/?hash='.$hash.'"> link</a> para redefinir sua senha.</td></tr>';
+			$mensagem .= '<tr></tr>';
+			$mensagem .= '<tr></tr>';
 			$mensagem .= "</table>";
-			
-		    /* Inclui a classe do phpmailer */              
+			return $mensagem;
+		}
+		function send($mensagem, $email, $host_do_email, $seu_email, $sua_senha, $seu_nome, $assunto, $msg_sent){
+			/* Inclui a classe do phpmailer */              
 		    
 		    $mail = new PHPMailer();
 		    /* Cria uma Instância da classe */
@@ -38,7 +33,7 @@
 		    /* Protocolo da conexão */
 		    $mail->SMTPSecure = "ssl";
 		    /* Porta da conexão */
-		    $mail->Port = $sua_porta;
+		    $mail->Port = "465";
 		    /* Email ou usuário para autenticação */
 		    $mail->Username = $seu_email;
 		    /* Senha do usuário */
@@ -73,13 +68,73 @@
 		    $mail->ClearAttachments();
 		     
 		    /* Mostra se o email foi enviado ou não */
+	        $msg = $msg_sent;
+	        return $msg;
+		}
 
-	        $msg = "Email enviado!";
-
-		} else {
-	        $msg = "Não foi possível enviar o e-mail.<br /><br />";
+ 		$dados=array(':email'=>$email);
+ 		include("config.php");
+		$search_email_query = $con->prepare("SELECT * FROM login WHERE email=:email");
+		$search_email_query->execute($dados);
+		$usuario=$search_email_query->fetchall(PDO::FETCH_OBJ);
+		if ($usuario) {
+			if( $md5 ){
+				$options = ['cost' => 12,];
+				$hash = password_hash("esseshashquevejohjemdiaviu", PASSWORD_BCRYPT, $options);
+				$today = date('Y-m-j h-i-s');  
+				$dados2 = array(':email'=>$email);
+				$email_query = $con->prepare("SELECT * FROM passchange WHERE email=:email " );
+				$email_query->execute($dados2);
+				$email_set = $email_query->fetch(PDO::FETCH_OBJ);
+				if( !$email_set ) {
+					$dados3 =array(':hash'=>$hash,':email'=>$email,':data_change'=>$today,':change_validate'=>1);
+					$add_change = $con->prepare(
+						"
+							INSERT INTO `passchange` ( 
+								hash, 
+								email, 
+								data_change, 
+								change_validate
+							) 
+							VALUES (
+								:hash, 
+								:email, 
+								:data_change, 
+								:change_validate
+							)
+						"
+					);
+					$add_change->execute($dados3);
+					$mensagem = msg($usuario, $email, $site, $pagina_recuberacao, $hash );
+					$msg_sent = "<div class='ui positive message'>Um Email foi enviado para ".$email.",<br> em alguns instantes irá receber o email contendo instruções para atualização de senha. </div>";
+					$msg = send($mensagem, $email, $host_do_email, $seu_email, $sua_senha, $seu_nome, $assunto, $msg_sent);
+				} else {
+					$mensagem = msg($usuario, $email, $site, $pagina_recuberacao, $hash );
+					$dados3 =array('change_validate'=>1, ':hash'=>$hash, ':id'=>$email_set->id, ':data_change'=>$today );
+					$change_query = $con->prepare("UPDATE `passchange` SET `change_validate`=:change_validate, `hash`=:hash, `data_change`=:data_change WHERE id=:id ");
+					$change_query->execute($dados3);
+					$msg_sent = "<div class='ui positive message'>Um Email foi enviado para ".$email.",<br> em alguns instantes irá receber o email contendo instruções para atualização de senha. </div>";
+					$msg = send($mensagem, $email, $host_do_email, $seu_email, $sua_senha, $seu_nome, $assunto, $msg_sent);
+				}
+			}else{
+				$mensagem = "<table>";
+				foreach ($usuario as $us) {
+					$i = $i+1;
+					$mensagem .= '<tr>' . $i . '° Conta.<tr>';
+					$mensagem .= '<tr><tr>';
+					$mensagem .= '<tr> <td>Login: ' . $us->userid . '</td></tr>';
+					$mensagem .= '<tr> <td>Senha: ' . $us->user_pass . '</td></tr>';
+					$mensagem .= '<tr><tr>';
+					$mensagem .= '<tr><tr>';
+				}
+				$mensagem .= "</table>";
+				$msg_sent = "<div class='ui positive message'>Um Email foi enviado para ".$email.",<br> em alguns instantes irá receber o email contendo instruções para atualização de senha. </div>";
+				$msg = send($mensagem, $email, $host_do_email, $seu_email, $sua_senha, $seu_nome, $assunto, $msg_sent);
+			}
+		}else{
+			$msg = "Não foi possível enviar o e-mail.<br /><br />";
 	        $msg .= "<b>Email não encontrado. </b> <br />" . $mail->ErrorInfo;
-	    }
-	    return $msg;
+		}
+		return $msg;
  	}
 ?>

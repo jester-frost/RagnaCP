@@ -584,9 +584,7 @@
 	/*====================================================*/
 
 	function abrelink($url){
-		echo "<script language='javascript'> 
-		window.open('".$url."', '_blank'); 
-		</script>";
+		echo "<script language='javascript'> window.open('".$url."', '_blank'); </script>";
 	}
 
 
@@ -612,11 +610,13 @@
 		if($vote) {
 
 			if ( time() - $last_vote > ( 60 * 60 * $tempo )  ){
-				$date = new DateTime();
+				/*$date = new DateTime();
 				$search_vote_update = $con->prepare("UPDATE `vote_point` SET `point` = ".($point + $points_per_click)." , `last_vote".$site."` = ".time().", `date` = '".$date->format('d-m-y H:i')."' WHERE  `account_id` = ".$acc_id." ");
 				$search_vote_update->execute($accid);
-				$votes = "Ganhou +".$points_per_click." pontos";
+				$votes = "Ganhou +".$points_per_click." pontos";*/
 				$url = array_values($links)[$site-1];
+				print_r( $url );
+				die();
 				abrelink($url);
 			}else{
 				// alguns servidores podem nao efetuar a operação $last_time = (60 * 60 * $tempo) - time() - $last_vote ;
@@ -627,9 +627,9 @@
 			}
 		// se não votou vai cair aqui
 		} else {
-			$vote_query = $con->prepare('INSERT INTO `vote_point`(`account_id`, `point`, `last_vote'.$site.'`,`date`) VALUES (:account_id,'.$points_per_click.','.time().',"'.$date->format('d-m-y H:i').'")');
+			/*$vote_query = $con->prepare('INSERT INTO `vote_point`(`account_id`, `point`, `last_vote'.$site.'`,`date`) VALUES (:account_id,'.$points_per_click.','.time().',"'.$date->format('d-m-y H:i').'")');
 			$vote_query->execute($accid);
-			$votes = "Ganhou +".$points_per_click." pontos";
+			$votes = "Ganhou +".$points_per_click." pontos"; */
 			$url = array_values($links)[$site-1];
 			abrelink($url);
 		}
@@ -872,7 +872,11 @@
 	//  Login Function
 	/*====================================================*/
 
-	function login($con, $userid, $user_pass){
+	function login($con, $userid, $user_pass, $md5){
+
+		if( $md5 ){
+			$user_pass = md5( $user_pass );
+		}
 
 		$dados=array(':userid'=>$userid,':user_pass'=>$user_pass);
 		
@@ -885,12 +889,9 @@
 		if ($usuario) {
 			ini_set('default_charset','UTF-8');
 			$_SESSION["usuario"]=$usuario;
-			
 		}else {
 			$msg="Ooops! alguma coisa está errada ...";
-
 			$error = "<p class='error'>" . $msg . "</p>";
-
 		}
 		return $error;
 	}
@@ -926,7 +927,7 @@
 	function topguild($con){
 
 		// Primeira Query
-		$guild_query = $con->prepare("SELECT `guild`.`guild_id`, `guild`.`name`, `guild`.`master`, `guild`.`emblem_data`, `guild`.`guild_lv`, `guild`.`exp`, `guild`.`guild_id`, `guild`.`average_lv`, count(`guild_member`.`name`), (count(`guild_member`.`name`) * `guild`.`average_lv`) as `gmate` FROM `guild` LEFT JOIN `guild_member` ON `guild`.`guild_id` = `guild_member`.`guild_id` GROUP BY `guild_member`.`guild_id` ORDER BY `guild`.`guild_lv` DESC, `guild`.`exp` DESC, `gmate` DESC LIMIT 0, 50	");
+		$guild_query = $con->prepare("SELECT `guild`.`guild_id`, `guild`.`name`, `guild`.`master`, `guild`.`emblem_data`, `guild`.`guild_lv`, `guild`.`exp`, `guild`.`guild_id`, `guild`.`average_lv`, count(`guild_member`.`name`), (count(`guild_member`.`name`) * `guild`.`average_lv`) as gmate FROM `guild` LEFT JOIN `guild_member` ON `guild`.`guild_id` = `guild_member`.`guild_id` GROUP BY `guild_member`.`guild_id` ORDER BY `guild`.`guild_lv` DESC, `guild`.`exp` DESC, `gmate` DESC LIMIT 0, 50	");
 	    $guild_query->execute();
 	    $guild = $guild_query->fetchAll(PDO::FETCH_OBJ);
 		return $guild;
@@ -1056,10 +1057,10 @@
         if( ! $found ):
 
 	        $personagens = array();
-	        for ($i=0; $i < 12 ; $i++) {
+	        for ($i=0; $i < 9 ; $i++) {
 	        	$personagens[$i] = null;
 	        }
-	    	for ($i=0; $i < 12 ; $i++) { 
+	    	for ($i=0; $i < 9 ; $i++) { 
 		        foreach ( $chars as $char ) :
 		    		if( $char->char_num == $i ){
 			        	$personagens[$i] = array( 
@@ -1071,11 +1072,11 @@
 	    	}
 	        $contagem = count( array_filter( $personagens ) );
 
-	        if ( $contagem < 11 ) :
+	        if ( $contagem < 9 ) :
 	    		// slot de teste
 	    		$slot = 0;
 
-	    		for ( $i=0; $i < 12 ; $i++) { 
+	    		for ( $i=0; $i < 9 ; $i++) { 
 	    			if( $personagens[$i] == null ){
 						$slot = $i;
 						break;
@@ -1177,6 +1178,52 @@
 		return $dados;
 	}
 
-	
+	function nova_senha( $con, $senha, $hash ){
+		$today = date('Y-m-j h-i-s');  
+		$dados = array(':hash'=>$hash);
+		$pass_query = $con->prepare("SELECT * FROM passchange WHERE hash=:hash " );
+		$pass_query->execute($dados);
+		$pass = $pass_query->fetch(PDO::FETCH_OBJ);
+		$dados2 =array('change_validate'=>0, ':hash'=>$hash, ':data_change'=>$today );
+		$change_query = $con->prepare("UPDATE `passchange` SET `change_validate`=:change_validate, `data_change`=:data_change WHERE hash=:hash ");
+		$change_query->execute($dados2);
+		$dados3 = array(':usermail'=>$pass->email, ':password'=>md5($senha) );
+		$pass_change = $con->prepare("UPDATE `login` SET `user_pass`=:password WHERE email=:usermail ");
+		$pass_change->execute($dados3);
+		$msg = array(
+			'mensagem' => "<div class='ui positive message'>Senha Alterada com Sucesso</div>",
+			'status' => '',
+			'redirect' => '/home',
+		);
+		return $msg;
+	}
+	function redefine( $con, $hash ){
+		$dados = array(':hash'=>$hash);
+		$pass_query = $con->prepare("SELECT * FROM passchange WHERE hash=:hash " );
+		$pass_query->execute($dados);
+		$pass = $pass_query->fetch(PDO::FETCH_OBJ);
+		if( $pass ){
+			if( $pass->change_validate > 0 ){
+				$msg = array(
+					'mensagem' => "<div class='ui positive message'>Muito bem, altere sua senha nos campos a cima</div>",
+					'status' => TRUE,
+					'redirect' => '',
+				);
+			}else{
+				$msg = array(
+					'mensagem' => "<div class='ui error message'>Esta requisição de alteração de senha já expirou, lamentamos muito... <br> por favor tente pedir uma nova alteração </div>",
+					'status' => FALSE,
+					'redirect' => '',
+				);
+			}
+		}else {
+			$msg = array(
+				'mensagem' => "<div class='ui error message'>Não encontramos nenhuma requisição de senha </div>",
+				'status' => FALSE,
+				'redirect' => '',
+			);
+		}
+		return $msg;
+	}
 
  ?>

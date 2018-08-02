@@ -16,6 +16,10 @@
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
         )
     );
+    // Mapa de inicio do personagem ( Mudar de acordo com os critérios do servidor)
+    $mapa = 'new_1-1';
+    $mapa_x = 53;
+    $mapa_y = 111;
     $level_admin = 80; // Aqui o level de ADMIN ( group_id ) do administrador
     $stats_points = 48; // Quantia de pontos de Status o personagem tem para usar ao criar o personagem
     $qtd_cabelos = 45; // quantia de estilos de cabelo do seu servidor (OBS: ficar atento as imagens pois podem não corresponder as mesmas imagens do seu servidor)
@@ -31,6 +35,7 @@
     //
     // Recomendo a todos usarem um email do Gmail mesmo, pois é muito bom e vai ser uma coisa a menos pra pesar na banda do servidor
     // Outro detalhe, é preciso habilitar Aplicativos menos seguros, https://support.google.com/accounts/answer/6010255?hl=pt-BR, e configurar o SMTP do email a ser usado
+    $pagina_recuberacao = 'recuperar-senha';
     $assunto = 'Recuperação de Senha';
     $seu_email      =   'email_servidor@gmail.com';
     $seu_nome       =   'Nome do Servidor'; // Esse nome é usado no Title do Header, nos rights do footer e no corpo do E-mail
@@ -61,6 +66,17 @@
     // MD5 Pass, suporte para login e modificação de senha
     // true ou false
     $md5 = false;
+    /*  Tabela da recuperação de senha deve ser inserida no BD do emulador
+    
+        CREATE TABLE `passchange` (
+          `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+          `hash` varchar(255) NOT NULL,
+          `email` varchar(255) NOT NULL,
+          `data_change` datetime(6) NOT NULL,
+          `change_validate` tinyint(1) DEFAULT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+    */
     //
     // ================================================================================
     // ============================= maldito vote points ==============================
@@ -71,9 +87,6 @@
     // Aqui os links dos tops que seu servidor foi cadastrado
     //
     $points_per_click = 3;
-    $link1="http://www.topservers200.com/in.php?id=15873";              // Link do TOP 1
-    $link2="http://www.topragnarok.com.br/index.php?s=vote&id=22134";   // Link do TOP 2
-    $link3="http://www.topragnarok100.com.br/votar/rgcrashers";         // Link do TOP 3
     //
     //
         if ($vote_points) {
@@ -93,9 +106,9 @@
             */
 
             $link_array = array(
-                1 => $link1,
-                2 => $link2,
-                3 => $link3,
+                1 => "http://www.topservers200.com/in.php?id=15873",
+                2 => "http://www.topragnarok.com.br/index.php?s=vote&id=22134",
+                3 => "http://www.topragnarok100.com.br/votar/rgcrashers",
             );
 
             $links = $link_array;
@@ -116,8 +129,23 @@
     //
     // == Recomendável ler a documentação do pague seguro antes de habilitar isso aqui
     //
+    // Pagueseguro app
+    // true or false
+    //
+    $pagueseguro = true;
+    //
+    /*
+        CREATE TABLE `doacao` (
+          `account_id` int(11) UNSIGNED NOT NULL,
+          `data` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+          `valor` int(11) NOT NULL,
+          `Rops` int(11) NOT NULL,
+          `estado` int(11) UNSIGNED NOT NULL DEFAULT '0',
+          `transaction_id` varchar(100) NOT NULL DEFAULT '',
+          `email` varchar(39) NOT NULL DEFAULT ''
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    */
     // ===============================================================================
-    // Na pasta NPCS e SQL inportar no banco do jogo a tabela doacao.sql
     // Token gerado pelo pague seguro
     $token ='XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
     //

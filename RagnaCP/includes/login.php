@@ -7,7 +7,7 @@
 	$userid=$_POST["userid"];
 	$user_pass=$_POST["user_pass"];
 
-	$dados = login($con, $userid, $user_pass);
+	$dados = login($con, $userid, $user_pass, $md5);
 
 	}
  ?>
@@ -36,6 +36,10 @@
 			<label>
 				<span>Senha: </span>
 				<input name="user_pass" class="ipt" type="password"  required>
+			</label>
+			<label>
+				<span>Lembrar</span>
+				<input type="checkbox">
 			</label>
 			<div class="error-msg">
 				<?php echo $dados;?>
